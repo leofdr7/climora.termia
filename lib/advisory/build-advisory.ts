@@ -2,44 +2,32 @@ import type { DailyPoint } from "@/lib/weather/openmeteo";
 
 export type RiskLevel = "frost_watch" | "heat_stress" | "seasonal_blend" | "normal";
 
+export type WeatherReferenceKey =
+  | "openmeteo"
+  | "ecmwf"
+  | "noaa"
+  | "nasa"
+  | "eumetsat"
+  | "copernicus";
+
 export type WeatherReference = {
-  label: string;
+  key: WeatherReferenceKey;
   href: string;
-  note: string;
 };
 
 export const WEATHER_REFERENCES: WeatherReference[] = [
-  {
-    label: "Open-Meteo (data source)",
-    href: "https://open-meteo.com/",
-    note: "Open numerical weather forecasts with required attribution.",
-  },
-  {
-    label: "ECMWF",
-    href: "https://www.ecmwf.int/",
-    note: "Global assimilation-fed models underpin many public forecast layers.",
-  },
-  {
-    label: "NOAA JetStream — temperature basics",
-    href: "https://www.weather.gov/jetstream/temp",
-    note: "How air temperature is measured and interpreted.",
-  },
-  {
-    label: "NASA Worldview",
-    href: "https://worldview.earthdata.nasa.gov/",
-    note: "Explore satellite imagery including land and surface context.",
-  },
-  {
-    label: "EUMETSAT — satellite observations",
-    href: "https://www.eumetsat.int/",
-    note: "European operational satellite data for weather and climate monitoring.",
-  },
-  {
-    label: "Copernicus",
-    href: "https://www.copernicus.eu/en",
-    note: "Earth observation programmes that inform environmental monitoring.",
-  },
+  { key: "openmeteo", href: "https://open-meteo.com/" },
+  { key: "ecmwf", href: "https://www.ecmwf.int/" },
+  { key: "noaa", href: "https://www.weather.gov/jetstream/temp" },
+  { key: "nasa", href: "https://worldview.earthdata.nasa.gov/" },
+  { key: "eumetsat", href: "https://www.eumetsat.int/" },
+  { key: "copernicus", href: "https://www.copernicus.eu/en" },
 ];
+
+export type AdvisoryTranslator = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
 
 export type AdvisoryResult = {
   risk: RiskLevel;
@@ -59,8 +47,9 @@ export function buildAdvisory(input: {
   minThreshold: number;
   maxThreshold: number;
   daily: DailyPoint[];
+  t: AdvisoryTranslator;
 }): AdvisoryResult {
-  const { min24h, max24h, soilMean, minThreshold, maxThreshold, daily } = input;
+  const { min24h, max24h, soilMean, minThreshold, maxThreshold, daily, t } = input;
   const todayDaily = daily[0] ?? null;
 
   let thresholdBreached = false;
@@ -68,36 +57,40 @@ export function buildAdvisory(input: {
 
   if (min24h !== null && min24h < minThreshold) {
     thresholdBreached = true;
-    breachDetail = `Air temperature may drop near or below ${minThreshold.toFixed(1)}°C (${min24h.toFixed(1)}°C in the next-day window); review cold-chain and frost-sensitive goods.`;
+    breachDetail = t("breachCold", {
+      threshold: minThreshold.toFixed(1),
+      observed: min24h.toFixed(1),
+    });
   }
   if (max24h !== null && max24h > maxThreshold) {
     thresholdBreached = true;
-    breachDetail = breachDetail
-      ? breachDetail +
-        ` Heat stress possible above ${maxThreshold.toFixed(1)}°C (peak ~${max24h.toFixed(1)}°C).`
-      : `Peak temperature may exceed ${maxThreshold.toFixed(1)}°C (~${max24h.toFixed(1)}°C); monitor refrigerated cases and staffing comfort.`;
+    if (breachDetail) {
+      breachDetail =
+        breachDetail +
+        t("breachHotAfterCold", {
+          threshold: maxThreshold.toFixed(1),
+          observed: max24h.toFixed(1),
+        });
+    } else {
+      breachDetail = t("breachHotOnly", {
+        threshold: maxThreshold.toFixed(1),
+        observed: max24h.toFixed(1),
+      });
+    }
   }
 
   let risk: RiskLevel = "normal";
-  let title = "Stable conditions";
-  let summary =
-    "Near-surface temperatures in the next day look within typical ranges for your alert settings.";
-  const bullets: string[] = [
-    "Forecasts blend global models; always compare with local instruments for loading docks and display cases.",
-  ];
+  let title = t("stable.title");
+  let summary = t("stable.summary");
+  const bullets: string[] = [t("defaultBullet")];
 
   if (min24h !== null && min24h < 2) {
     risk = "frost_watch";
-    title = "Cold / frost watch";
-    summary =
-      "Hourly guidance suggests surface air may approach frost-prone values. Ground and soil temperatures can lag or diverge from air readings.";
-    bullets.unshift(
-      "Consider protecting outdoor intake areas and verifying HVAC setpoints overnight.",
-    );
+    title = t("frostWatch.title");
+    summary = t("frostWatch.summary");
+    bullets.unshift(t("frostWatch.bullet"));
     if (soilMean !== null) {
-      bullets.push(
-        `Soil temperature (model layer ~6 cm average in window) centered near ${soilMean.toFixed(1)}°C — helpful context, not a replacement for probes.`,
-      );
+      bullets.push(t("frostWatch.soil", { soil: soilMean.toFixed(1) }));
     }
   }
 
@@ -105,21 +98,18 @@ export function buildAdvisory(input: {
     risk = risk === "frost_watch" ? "seasonal_blend" : "heat_stress";
     title =
       risk === "seasonal_blend"
-        ? "Mixed temperature stress window"
-        : "Heat stress window";
+        ? t("seasonalBlend.title")
+        : t("heatStress.title");
     summary =
       risk === "seasonal_blend"
-        ? "The next day may include both chilly lows and strong daytime heat — plan for refrigerated inventory and hydrated crews."
-        : "Hot peak temperatures are expected. Satellite-informed land context still benefits from point sensors at the store.";
-    bullets.unshift(
-      "Verify cold-chain for short trips from truck to shelf; peak sun on asphalt can exceed air temperature.",
-    );
+        ? t("seasonalBlend.summary")
+        : t("heatStress.summary");
+    bullets.unshift(t("heatStress.bullet"));
   }
 
   if (risk === "normal" && thresholdBreached) {
-    title = "Within model range but past your alert thresholds";
-    summary =
-      "Rule-based checks flagged your custom limits even if broader risk labels stay calm — see breach detail below.";
+    title = t("thresholdOnly.title");
+    summary = t("thresholdOnly.summary");
   }
 
   return {

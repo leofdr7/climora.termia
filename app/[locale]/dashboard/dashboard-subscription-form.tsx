@@ -1,7 +1,12 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState, useTransition } from "react";
-import { saveAlertSubscription } from "@/app/dashboard/actions";
+
+import {
+  saveAlertSubscription,
+  type DashboardErrorCode,
+} from "@/app/[locale]/dashboard/actions";
 import type { AlertSubscription } from "@/lib/types/database";
 import {
   LATIN_AMERICA_COUNTRIES,
@@ -37,8 +42,13 @@ export function DashboardSubscriptionForm({
   subscription: AlertSubscription | null;
   defaultEmail: string;
 }) {
+  const t = useTranslations("dashboard.form");
+  const tErrors = useTranslations("dashboard.errors");
   const [pending, startTransition] = useTransition();
-  const [feedback, setFeedback] = useState<{ type: "ok" | "error"; text: string } | null>(null);
+  const [feedback, setFeedback] = useState<{
+    type: "ok" | "error";
+    text: string;
+  } | null>(null);
 
   const initial = deriveFromSubscription(subscription);
 
@@ -87,6 +97,15 @@ export function DashboardSubscriptionForm({
     setTimezone(loc.timezone);
   }
 
+  function translateError(code: DashboardErrorCode, fallback?: string): string {
+    const key = code as Parameters<typeof tErrors>[0];
+    const translated = tErrors(key);
+    if (code === "GENERIC" && fallback) {
+      return `${translated} ${fallback}`.trim();
+    }
+    return translated;
+  }
+
   return (
     <form
       className="flex flex-col gap-4"
@@ -94,10 +113,13 @@ export function DashboardSubscriptionForm({
         setFeedback(null);
         startTransition(async () => {
           const result = await saveAlertSubscription(formData);
-          if (result && "error" in result && result.error) {
-            setFeedback({ type: "error", text: result.error });
-          } else if (result && "ok" in result && result.ok) {
-            setFeedback({ type: "ok", text: "Saved alert settings." });
+          if ("errorCode" in result) {
+            setFeedback({
+              type: "error",
+              text: translateError(result.errorCode, result.message),
+            });
+          } else if (result.ok) {
+            setFeedback({ type: "ok", text: t("saved") });
           }
         });
       }}
@@ -106,7 +128,7 @@ export function DashboardSubscriptionForm({
       <input type="hidden" name="lon" value={Number.isFinite(lon) ? lon : -74.006} />
 
       <label className="flex flex-col gap-1 text-sm font-medium">
-        Alert email
+        {t("alertEmail")}
         <input
           name="alert_email"
           type="email"
@@ -117,9 +139,9 @@ export function DashboardSubscriptionForm({
       </label>
 
       <label className="flex flex-col gap-1 text-sm font-medium">
-        Country
+        {t("country")}
         <select
-          aria-label="Country"
+          aria-label={t("country")}
           value={countryId}
           onChange={(e) => applyCountry(e.target.value)}
           className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
@@ -129,24 +151,24 @@ export function DashboardSubscriptionForm({
               {c.label}
             </option>
           ))}
-          <option value={OTHER_COUNTRY_ID}>Other — manual timezone</option>
+          <option value={OTHER_COUNTRY_ID}>{t("countryOther")}</option>
         </select>
         <span className="text-xs font-normal text-zinc-500">
-          Choosing a country sets the legal timezone for alerts; pick a region below for precise coordinates.
+          {t("countryHint")}
         </span>
       </label>
 
       <label className="flex flex-col gap-1 text-sm font-medium">
-        Region / city
+        {t("region")}
         <select
-          aria-label="Region or city"
+          aria-label={t("region")}
           value={isOther ? "" : regionId}
           disabled={isOther || !selectedCountry?.regions.length}
           onChange={(e) => applyRegion(e.target.value)}
           className="rounded-md border border-zinc-300 bg-white px-3 py-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950"
         >
           {isOther ? (
-            <option value="">Use saved coordinates</option>
+            <option value="">{t("regionUseSaved")}</option>
           ) : (
             selectedCountry?.regions.map((r) => (
               <option key={r.id} value={r.id}>
@@ -159,29 +181,33 @@ export function DashboardSubscriptionForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Latitude</span>
+          <span className="text-sm font-medium">{t("latitude")}</span>
           <div
             className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm tabular-nums text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lat)}
           </div>
-          <span className="text-xs font-normal text-zinc-500">Set automatically from the region you select.</span>
+          <span className="text-xs font-normal text-zinc-500">
+            {t("coordsHint")}
+          </span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-medium">Longitude</span>
+          <span className="text-sm font-medium">{t("longitude")}</span>
           <div
             className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm tabular-nums text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lon)}
           </div>
-          <span className="text-xs font-normal text-zinc-500">Set automatically from the region you select.</span>
+          <span className="text-xs font-normal text-zinc-500">
+            {t("coordsHint")}
+          </span>
         </div>
       </div>
 
       <label className="flex flex-col gap-1 text-sm font-medium">
-        IANA timezone
+        {t("timezone")}
         <input
           name="timezone"
           value={timezone}
@@ -197,15 +223,13 @@ export function DashboardSubscriptionForm({
           }
         />
         <span className="text-xs font-normal text-zinc-500">
-          {isOther
-            ? "Enter a valid IANA zone (e.g. America/New_York) when your location is not listed."
-            : "Derived from the country (and from the region only where multiple zones apply, e.g. México or Brasil)."}
+          {isOther ? t("timezoneHintOther") : t("timezoneHint")}
         </span>
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Cold alert below (°C)
+          {t("minAlert")}
           <input
             name="min_temp_alert_celsius"
             type="number"
@@ -214,11 +238,11 @@ export function DashboardSubscriptionForm({
             className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
           />
           <span className="text-xs font-normal text-zinc-500">
-            Email highlights when modeled air min drops under this value in the lookahead window.
+            {t("minAlertHint")}
           </span>
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Heat alert above (°C)
+          {t("maxAlert")}
           <input
             name="max_temp_alert_celsius"
             type="number"
@@ -227,12 +251,12 @@ export function DashboardSubscriptionForm({
             className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
           />
           <span className="text-xs font-normal text-zinc-500">
-            Highlights when modeled air max climbs above this value.
+            {t("maxAlertHint")}
           </span>
         </label>
       </div>
       <label className="flex flex-col gap-1 text-sm font-medium">
-        Preferred digest hour (0–23, local TZ)
+        {t("digestHour")}
         <input
           name="daily_digest_hour"
           type="number"
@@ -250,7 +274,7 @@ export function DashboardSubscriptionForm({
           defaultChecked={subscription?.is_active ?? true}
           className="h-4 w-4 rounded border-zinc-300"
         />
-        Alerts enabled
+        {t("active")}
       </label>
       {feedback ? (
         <p
@@ -268,7 +292,7 @@ export function DashboardSubscriptionForm({
         disabled={pending}
         className="w-fit rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900"
       >
-        {pending ? "Saving…" : "Save alert settings"}
+        {pending ? t("submitting") : t("submit")}
       </button>
     </form>
   );

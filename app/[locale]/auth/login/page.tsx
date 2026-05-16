@@ -1,10 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+
+import { Link, useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
+  const t = useTranslations("auth.login");
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -24,22 +28,22 @@ export default function LoginPage() {
       setError(signError.message);
       return;
     }
-    window.location.href = "/dashboard";
+    router.push("/dashboard");
   }
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-16">
-      <h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Access your temperature advisor dashboard. New here?{" "}
+        {t("subtitleBefore")}{" "}
         <Link className="underline" href="/auth/sign-up">
-          Create an account
+          {t("subtitleLink")}
         </Link>
         .
       </p>
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Email
+          {t("email")}
           <input
             required
             autoComplete="email"
@@ -50,7 +54,7 @@ export default function LoginPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Password
+          {t("password")}
           <input
             required
             autoComplete="current-password"
@@ -68,7 +72,7 @@ export default function LoginPage() {
           type="submit"
           className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900"
         >
-          {loading ? "Signing in…" : "Sign in"}
+          {loading ? t("submitting") : t("submit")}
         </button>
       </form>
     </div>

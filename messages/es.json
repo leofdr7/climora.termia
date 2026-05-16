@@ -1,0 +1,184 @@
+{
+  "site": {
+    "title": "Asesor de Temperatura Satelital",
+    "metadataTitle": "Asesor de Temperatura Satelital",
+    "metadataDescription": "Guía de temperatura respaldada por Open-Meteo con avisos deterministas para hogares y operaciones de tiendas de comestibles.",
+    "header": {
+      "register": "Registrarse",
+      "signIn": "Iniciar sesión",
+      "signOut": "Cerrar sesión"
+    },
+    "language": {
+      "label": "Idioma",
+      "english": "English",
+      "spanish": "Español"
+    }
+  },
+  "home": {
+    "eyebrow": "Informado por satélite · Datos abiertos",
+    "heading": "Asesor de temperatura para tiendas y vecindarios.",
+    "intro": "Regístrate como cliente o tienda, confirma por correo con Supabase Auth y recibe resúmenes basados en reglas a partir de los pronósticos numéricos de Open‑Meteo, con enlaces explícitos a programas oficiales de la UE y de EE. UU.",
+    "ctaSignUp": "Comenzar registro",
+    "ctaSignIn": "¿Ya confirmaste? Inicia sesión",
+    "howItWorks": "Cómo funciona",
+    "step1": "Elige onboarding doméstico o de tienda tras verificar el correo.",
+    "step2": "Guarda latitud, longitud y umbrales de temperatura.",
+    "step3": "Open-Meteo aporta temperaturas horarias; reglas deterministas resumen el riesgo.",
+    "step4": "Un cron seguro envía resúmenes por correo vía Resend (configura tus claves).",
+    "noteBox": "No se necesitan claves meteorológicas de terceros para el pronóstico. Las alertas requieren credenciales de Resend y Supabase para el envío seguro por lotes.",
+    "honestTitle": "Nota de pronóstico transparente",
+    "honestBody": "Esta demo no procesa datos satelitales en bruto. En su lugar combina la salida de modelos globales confiables (vía Open‑Meteo) con referencias científicas satelitales para que los equipos puedan escalar a sensores calibrados cuando importa: cámaras frigoríficas, andenes de carga y preparación comunitaria."
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitleBefore": "Accede a tu panel del asesor de temperatura. ¿Eres nuevo?",
+      "subtitleLink": "Crea una cuenta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "submitting": "Iniciando sesión…"
+    },
+    "signUp": {
+      "title": "Crea tu cuenta",
+      "subtitleBefore": "Hogares y equipos de tiendas reciben verificación por correo a través de Supabase Auth. ¿Ya estás registrado?",
+      "subtitleLink": "Inicia sesión",
+      "accountTypeLegend": "Me registro como",
+      "individual": "Persona individual / hogar",
+      "grocery": "Tienda de comestibles o equipo minorista",
+      "fullName": "Nombre completo o contacto principal",
+      "email": "Correo de trabajo",
+      "password": "Contraseña",
+      "submit": "Solicitar confirmación por correo",
+      "submitting": "Enviando verificación…"
+    },
+    "checkEmail": {
+      "title": "Revisa tu correo",
+      "body": "Te enviamos un enlace de confirmación desde Supabase Auth. Haz clic para activar tu cuenta y continuar al onboarding. Puedes cerrar esta pestaña tras verificar.",
+      "back": "Volver a iniciar sesión"
+    }
+  },
+  "onboarding": {
+    "eyebrow": "Onboarding",
+    "title": "Completa tu perfil del Asesor de Temperatura Satelital",
+    "subtitle": "Cuéntanos si optimizas un plan doméstico o operaciones refrigeradas para una tienda. Las alertas y paneles usan este contexto en los textos; en v1 no afecta precios ni permisos.",
+    "fullName": "Nombre completo",
+    "accountType": "Tipo de cuenta",
+    "individual": "Persona individual / hogar",
+    "grocery": "Tienda / comercio de alimentos",
+    "storeName": "Nombre de la tienda (solo comercios)",
+    "storeNamePlaceholder": "p. ej. Mercado Vista al Puerto",
+    "address": "Dirección comercial (opcional)",
+    "addressPlaceholder": "Calle, ciudad — solo para tus registros en v1",
+    "submit": "Guardar y continuar al panel",
+    "submitting": "Guardando…",
+    "errors": {
+      "FULL_NAME_REQUIRED": "El nombre completo es obligatorio.",
+      "STORE_NAME_REQUIRED": "El nombre de la tienda es obligatorio para cuentas de comercio.",
+      "NOT_SIGNED_IN": "Debes iniciar sesión.",
+      "GENERIC": "No pudimos guardar tu perfil."
+    }
+  },
+  "dashboard": {
+    "eyebrow": "Panel",
+    "welcome": "Bienvenido de nuevo, {name}",
+    "accountTypeLabel": "Tipo de cuenta:",
+    "accountIndividual": "Individual",
+    "accountGrocery": "Tienda / comercio",
+    "advisoryTitle": "Vista previa del aviso en vivo",
+    "advisorySubtitle": "La vista previa usa tus coordenadas guardadas o los valores por defecto de NYC hasta que guardes una suscripción.",
+    "advisoryUnavailable": "Vista previa del pronóstico no disponible. Configura coordenadas/zona horaria abajo y asegúrate de tener acceso de red a Open-Meteo.",
+    "advisoryEyebrow": "Aviso basado en reglas (próximas ~24 horas)",
+    "advisoryThresholdNote": "Nota del umbral:",
+    "advisoryDailyAirRange": "Modelo diario de aire mín./máx. para {date}: {min} / {max} °C (Open-Meteo).",
+    "advisoryAttribution": "Datos meteorológicos por Open-Meteo (el uso comercial requiere atribución; ver Referencias). Los pronósticos son orientación del modelo: complementa con sensores calibrados in situ.",
+    "alertTitle": "Entrega de alertas",
+    "alertSubtitle": "Configura a dónde enviamos los resúmenes de temperatura. Los cron deben llamar a la ruta segura usando <code>{secret}</code> — ver README.",
+    "form": {
+      "alertEmail": "Correo para alertas",
+      "country": "País",
+      "countryHint": "Elegir un país fija la zona horaria legal de las alertas; selecciona una región abajo para coordenadas precisas.",
+      "countryOther": "Otro — zona horaria manual",
+      "region": "Región / ciudad",
+      "regionUseSaved": "Usar coordenadas guardadas",
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "coordsHint": "Se ajustan automáticamente con la región que elijas.",
+      "timezone": "Zona horaria IANA",
+      "timezoneHintOther": "Introduce una zona IANA válida (p. ej. America/Mexico_City) cuando tu ubicación no esté listada.",
+      "timezoneHint": "Derivada del país (y de la región solo cuando aplican varias zonas, p. ej. México o Brasil).",
+      "minAlert": "Alerta de frío por debajo de (°C)",
+      "minAlertHint": "El correo destaca cuando el mínimo modelado del aire baja de este valor en la ventana próxima.",
+      "maxAlert": "Alerta de calor por encima de (°C)",
+      "maxAlertHint": "Destaca cuando el máximo modelado del aire supera este valor.",
+      "digestHour": "Hora preferida del resumen (0–23, hora local)",
+      "active": "Alertas activadas",
+      "submit": "Guardar configuración de alertas",
+      "submitting": "Guardando…",
+      "saved": "Configuración de alertas guardada."
+    },
+    "errors": {
+      "NOT_SIGNED_IN": "Inicia sesión nuevamente para configurar alertas.",
+      "BAD_LATITUDE": "La latitud debe estar entre -90 y 90.",
+      "BAD_LONGITUDE": "La longitud debe estar entre -180 y 180.",
+      "GENERIC": "No pudimos guardar tu configuración de alertas."
+    }
+  },
+  "advisory": {
+    "stable": {
+      "title": "Condiciones estables",
+      "summary": "Las temperaturas cerca de la superficie en el próximo día parecen estar dentro de los rangos típicos para tus alertas."
+    },
+    "frostWatch": {
+      "title": "Vigilancia de frío / heladas",
+      "summary": "La guía horaria sugiere que el aire en superficie puede acercarse a valores propensos a heladas. La temperatura del suelo puede retrasarse o diferir de la del aire.",
+      "bullet": "Considera proteger zonas exteriores de admisión y verificar los puntos de consigna del HVAC durante la noche.",
+      "soil": "La temperatura del suelo (capa del modelo ~6 cm en promedio en la ventana) ronda los {soil}°C — contexto útil, no sustituye sensores."
+    },
+    "heatStress": {
+      "title": "Ventana de estrés por calor",
+      "summary": "Se esperan picos de calor altos. El contexto satelital del terreno sigue beneficiándose de sensores puntuales en la tienda.",
+      "bullet": "Verifica la cadena de frío en trayectos cortos de camión a estantería; el sol pleno sobre el asfalto puede superar la temperatura del aire."
+    },
+    "seasonalBlend": {
+      "title": "Ventana mixta de estrés térmico",
+      "summary": "El próximo día puede combinar mínimas frías y calor diurno fuerte: planifica el inventario refrigerado y la hidratación de tu equipo."
+    },
+    "thresholdOnly": {
+      "title": "Dentro del rango del modelo pero fuera de tus umbrales",
+      "summary": "Las verificaciones por reglas marcaron tus límites personalizados aunque las etiquetas amplias de riesgo permanecen tranquilas — revisa el detalle abajo."
+    },
+    "defaultBullet": "Los pronósticos combinan modelos globales; compara siempre con instrumentos locales en andenes y vitrinas.",
+    "breachCold": "La temperatura del aire puede caer cerca o por debajo de {threshold}°C ({observed}°C en la ventana del día siguiente); revisa la cadena de frío y los productos sensibles a heladas.",
+    "breachHotOnly": "El pico de temperatura puede superar {threshold}°C (~{observed}°C); vigila las vitrinas refrigeradas y la comodidad del personal.",
+    "breachHotAfterCold": " Posible estrés por calor por encima de {threshold}°C (pico ~{observed}°C)."
+  },
+  "citations": {
+    "title": "Referencias autorizadas",
+    "intro": "Los datos numéricos de pronóstico provienen de Open-Meteo (ver Términos). Estos enlaces conectan la guía numérica con programas satelitales y ciencia de la medición.",
+    "openmeteo": {
+      "label": "Open-Meteo (fuente de datos)",
+      "note": "Pronósticos numéricos abiertos con atribución obligatoria."
+    },
+    "ecmwf": {
+      "label": "ECMWF",
+      "note": "Modelos globales con asimilación de datos que sustentan muchas capas públicas de pronóstico."
+    },
+    "noaa": {
+      "label": "NOAA JetStream — fundamentos de temperatura",
+      "note": "Cómo se mide e interpreta la temperatura del aire."
+    },
+    "nasa": {
+      "label": "NASA Worldview",
+      "note": "Explora imágenes satelitales con contexto de superficie y suelo."
+    },
+    "eumetsat": {
+      "label": "EUMETSAT — observaciones satelitales",
+      "note": "Datos satelitales operativos europeos para meteorología y monitoreo del clima."
+    },
+    "copernicus": {
+      "label": "Copernicus",
+      "note": "Programas de observación de la Tierra que informan el monitoreo ambiental."
+    }
+  }
+}

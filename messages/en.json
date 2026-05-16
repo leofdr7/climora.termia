@@ -1,0 +1,184 @@
+{
+  "site": {
+    "title": "Satellite Temperature Advisor",
+    "metadataTitle": "Satellite Temperature Advisor",
+    "metadataDescription": "Open-Meteo-backed temperature guidance with deterministic advisories for households and grocery operations.",
+    "header": {
+      "register": "Register",
+      "signIn": "Sign in",
+      "signOut": "Sign out"
+    },
+    "language": {
+      "label": "Language",
+      "english": "English",
+      "spanish": "Español"
+    }
+  },
+  "home": {
+    "eyebrow": "Satellite-informed · Open data",
+    "heading": "Temperature adviser for groceries and neighbours.",
+    "intro": "Register as a shopper or grocer, confirm via email through Supabase Auth, and receive rule-based summaries built on Open‑Meteo numerical forecasts—with explicit links back to EU and US authoritative programmes.",
+    "ctaSignUp": "Start registration",
+    "ctaSignIn": "Already confirmed? Sign in",
+    "howItWorks": "How it works",
+    "step1": "Choose household or grocery onboarding after email verification.",
+    "step2": "Save latitude, longitude, and temperature thresholds.",
+    "step3": "Open-Meteo provides hourly temperatures; deterministic rules summarise risk.",
+    "step4": "Secured cron job emails digests via Resend (configure your keys).",
+    "noteBox": "No third-party meteorological API keys needed for forecasting. Alerts require Resend and Supabase service credentials for secure batching.",
+    "honestTitle": "Honest forecasting note",
+    "honestBody": "This demo does not run raw satellite ingestion. Instead it pairs trusted global model output (via Open‑Meteo) with satellite science references so teams can escalate to calibrated sensors when it matters—for walk-in coolers, loading docks, and community preparedness."
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitleBefore": "Access your temperature advisor dashboard. New here?",
+      "subtitleLink": "Create an account",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in…"
+    },
+    "signUp": {
+      "title": "Create your account",
+      "subtitleBefore": "Households and grocery teams each get email verification through Supabase Auth. Already registered?",
+      "subtitleLink": "Sign in",
+      "accountTypeLegend": "I am signing up as",
+      "individual": "An individual / household",
+      "grocery": "A grocery store or food retail team",
+      "fullName": "Full name or primary contact",
+      "email": "Work email",
+      "password": "Password",
+      "submit": "Request email confirmation",
+      "submitting": "Sending verification…"
+    },
+    "checkEmail": {
+      "title": "Check your email",
+      "body": "We sent a confirmation link from Supabase Auth. Click it to activate your account and land on onboarding. You can close this tab after you verify.",
+      "back": "Back to sign in"
+    }
+  },
+  "onboarding": {
+    "eyebrow": "Onboarding",
+    "title": "Finish your Satellite Temperature Advisor profile",
+    "subtitle": "Tell us whether you're optimizing a household plan or refrigerated operations for a food retail site. Threshold alerts and dashboards use this context in copy — not pricing or permissions in v1.",
+    "fullName": "Full name",
+    "accountType": "Account type",
+    "individual": "Individual / household",
+    "grocery": "Grocery / food retail",
+    "storeName": "Store name (grocery only)",
+    "storeNamePlaceholder": "e.g. Harborview Market",
+    "address": "Business address (optional)",
+    "addressPlaceholder": "Street, city — used for your own records in v1",
+    "submit": "Save and continue to dashboard",
+    "submitting": "Saving…",
+    "errors": {
+      "FULL_NAME_REQUIRED": "Full name is required.",
+      "STORE_NAME_REQUIRED": "Store name is required for grocery accounts.",
+      "NOT_SIGNED_IN": "You must be signed in.",
+      "GENERIC": "We couldn't save your profile."
+    }
+  },
+  "dashboard": {
+    "eyebrow": "Dashboard",
+    "welcome": "Welcome back, {name}",
+    "accountTypeLabel": "Account type:",
+    "accountIndividual": "Individual",
+    "accountGrocery": "Grocery / retail",
+    "advisoryTitle": "Live advisory preview",
+    "advisorySubtitle": "Preview uses your saved coordinates or NYC defaults until you save a subscription.",
+    "advisoryUnavailable": "Forecast preview unavailable. Configure coordinates/timezone below and ensure network access is allowed for Open-Meteo.",
+    "advisoryEyebrow": "Rule-based advisory (next ~24 hours)",
+    "advisoryThresholdNote": "Threshold note:",
+    "advisoryDailyAirRange": "Modeled daily air min/max for {date}: {min} / {max} °C (Open-Meteo).",
+    "advisoryAttribution": "Weather data by Open-Meteo (Commercial use requires attribution; see References). Forecasts are model guidance — supplement with calibrated sensors on site.",
+    "alertTitle": "Alert delivery",
+    "alertSubtitle": "Configure where we email temperature digests. Cron jobs should call the secured API route using <code>{secret}</code> — see README.",
+    "form": {
+      "alertEmail": "Alert email",
+      "country": "Country",
+      "countryHint": "Choosing a country sets the legal timezone for alerts; pick a region below for precise coordinates.",
+      "countryOther": "Other — manual timezone",
+      "region": "Region / city",
+      "regionUseSaved": "Use saved coordinates",
+      "latitude": "Latitude",
+      "longitude": "Longitude",
+      "coordsHint": "Set automatically from the region you select.",
+      "timezone": "IANA timezone",
+      "timezoneHintOther": "Enter a valid IANA zone (e.g. America/New_York) when your location is not listed.",
+      "timezoneHint": "Derived from the country (and from the region only where multiple zones apply, e.g. México or Brasil).",
+      "minAlert": "Cold alert below (°C)",
+      "minAlertHint": "Email highlights when modeled air min drops under this value in the lookahead window.",
+      "maxAlert": "Heat alert above (°C)",
+      "maxAlertHint": "Highlights when modeled air max climbs above this value.",
+      "digestHour": "Preferred digest hour (0–23, local TZ)",
+      "active": "Alerts enabled",
+      "submit": "Save alert settings",
+      "submitting": "Saving…",
+      "saved": "Saved alert settings."
+    },
+    "errors": {
+      "NOT_SIGNED_IN": "Sign in again to configure alerts.",
+      "BAD_LATITUDE": "Latitude must be between -90 and 90.",
+      "BAD_LONGITUDE": "Longitude must be between -180 and 180.",
+      "GENERIC": "We couldn't save your alert settings."
+    }
+  },
+  "advisory": {
+    "stable": {
+      "title": "Stable conditions",
+      "summary": "Near-surface temperatures in the next day look within typical ranges for your alert settings."
+    },
+    "frostWatch": {
+      "title": "Cold / frost watch",
+      "summary": "Hourly guidance suggests surface air may approach frost-prone values. Ground and soil temperatures can lag or diverge from air readings.",
+      "bullet": "Consider protecting outdoor intake areas and verifying HVAC setpoints overnight.",
+      "soil": "Soil temperature (model layer ~6 cm average in window) centered near {soil}°C — helpful context, not a replacement for probes."
+    },
+    "heatStress": {
+      "title": "Heat stress window",
+      "summary": "Hot peak temperatures are expected. Satellite-informed land context still benefits from point sensors at the store.",
+      "bullet": "Verify cold-chain for short trips from truck to shelf; peak sun on asphalt can exceed air temperature."
+    },
+    "seasonalBlend": {
+      "title": "Mixed temperature stress window",
+      "summary": "The next day may include both chilly lows and strong daytime heat — plan for refrigerated inventory and hydrated crews."
+    },
+    "thresholdOnly": {
+      "title": "Within model range but past your alert thresholds",
+      "summary": "Rule-based checks flagged your custom limits even if broader risk labels stay calm — see breach detail below."
+    },
+    "defaultBullet": "Forecasts blend global models; always compare with local instruments for loading docks and display cases.",
+    "breachCold": "Air temperature may drop near or below {threshold}°C ({observed}°C in the next-day window); review cold-chain and frost-sensitive goods.",
+    "breachHotOnly": "Peak temperature may exceed {threshold}°C (~{observed}°C); monitor refrigerated cases and staffing comfort.",
+    "breachHotAfterCold": " Heat stress possible above {threshold}°C (peak ~{observed}°C)."
+  },
+  "citations": {
+    "title": "Authoritative references",
+    "intro": "Forecast numbers in this app come from Open-Meteo (see Terms). These links help you connect numerical guidance to satellite programmes and measurement science.",
+    "openmeteo": {
+      "label": "Open-Meteo (data source)",
+      "note": "Open numerical weather forecasts with required attribution."
+    },
+    "ecmwf": {
+      "label": "ECMWF",
+      "note": "Global assimilation-fed models underpin many public forecast layers."
+    },
+    "noaa": {
+      "label": "NOAA JetStream — temperature basics",
+      "note": "How air temperature is measured and interpreted."
+    },
+    "nasa": {
+      "label": "NASA Worldview",
+      "note": "Explore satellite imagery including land and surface context."
+    },
+    "eumetsat": {
+      "label": "EUMETSAT — satellite observations",
+      "note": "European operational satellite data for weather and climate monitoring."
+    },
+    "copernicus": {
+      "label": "Copernicus",
+      "note": "Earth observation programmes that inform environmental monitoring."
+    }
+  }
+}

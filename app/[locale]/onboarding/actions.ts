@@ -1,21 +1,36 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-import type { AccountType } from "@/lib/types/database";
 import { revalidatePath } from "next/cache";
 
-export async function completeOnboarding(formData: FormData) {
+import { createClient } from "@/lib/supabase/server";
+import type { AccountType } from "@/lib/types/database";
+
+export type OnboardingErrorCode =
+  | "FULL_NAME_REQUIRED"
+  | "STORE_NAME_REQUIRED"
+  | "NOT_SIGNED_IN"
+  | "GENERIC";
+
+export type OnboardingResult =
+  | { ok: true }
+  | { errorCode: OnboardingErrorCode; message?: string };
+
+export async function completeOnboarding(
+  formData: FormData,
+): Promise<OnboardingResult> {
   const fullName = String(formData.get("full_name") ?? "").trim();
-  const accountType = String(formData.get("account_type") ?? "individual") as AccountType;
+  const accountType = String(
+    formData.get("account_type") ?? "individual",
+  ) as AccountType;
   const storeName = String(formData.get("store_name") ?? "").trim();
   const businessAddress = String(formData.get("business_address") ?? "").trim();
 
   if (!fullName) {
-    return { error: "Full name is required." };
+    return { errorCode: "FULL_NAME_REQUIRED" };
   }
 
   if (accountType === "grocery" && !storeName) {
-    return { error: "Store name is required for grocery accounts." };
+    return { errorCode: "STORE_NAME_REQUIRED" };
   }
 
   const supabase = await createClient();
@@ -24,7 +39,7 @@ export async function completeOnboarding(formData: FormData) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return { error: "You must be signed in." };
+    return { errorCode: "NOT_SIGNED_IN" };
   }
 
   const atype =
@@ -43,10 +58,10 @@ export async function completeOnboarding(formData: FormData) {
   );
 
   if (error) {
-    return { error: error.message };
+    return { errorCode: "GENERIC", message: error.message };
   }
 
-  revalidatePath("/dashboard");
-  revalidatePath("/onboarding");
+  revalidatePath("/[locale]/dashboard", "page");
+  revalidatePath("/[locale]/onboarding", "page");
   return { ok: true };
 }

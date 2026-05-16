@@ -1,5 +1,7 @@
+import { getLocale } from "next-intl/server";
+
+import { redirect } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
 
 export async function requireUser() {
   const supabase = await createClient();
@@ -7,9 +9,10 @@ export async function requireUser() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    redirect("/auth/login");
+    const locale = await getLocale();
+    redirect({ href: "/auth/login", locale });
   }
-  return { supabase, user };
+  return { supabase, user: user! };
 }
 
 export async function getProfile() {

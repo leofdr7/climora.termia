@@ -1,7 +1,18 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+
+import { createClient } from "@/lib/supabase/server";
+
+export type DashboardErrorCode =
+  | "NOT_SIGNED_IN"
+  | "BAD_LATITUDE"
+  | "BAD_LONGITUDE"
+  | "GENERIC";
+
+export type DashboardResult =
+  | { ok: true }
+  | { errorCode: DashboardErrorCode; message?: string };
 
 function parseNumber(name: string, formData: FormData, fallback: number) {
   const raw = formData.get(name);
@@ -14,24 +25,26 @@ function parseIntBounded(name: string, formData: FormData, fallback: number) {
   return Math.min(23, Math.max(0, Math.round(n)));
 }
 
-export async function saveAlertSubscription(formData: FormData) {
+export async function saveAlertSubscription(
+  formData: FormData,
+): Promise<DashboardResult> {
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user?.email) {
-    return { error: "Sign in again to configure alerts." };
+    return { errorCode: "NOT_SIGNED_IN" };
   }
 
   const lat = parseNumber("lat", formData, NaN);
   const lon = parseNumber("lon", formData, NaN);
 
   if (!Number.isFinite(lat) || lat < -90 || lat > 90) {
-    return { error: "Latitude must be between -90 and 90." };
+    return { errorCode: "BAD_LATITUDE" };
   }
   if (!Number.isFinite(lon) || lon < -180 || lon > 180) {
-    return { error: "Longitude must be between -180 and 180." };
+    return { errorCode: "BAD_LONGITUDE" };
   }
 
   const timezone = String(formData.get("timezone") || "UTC").trim() || "UTC";
@@ -49,11 +62,7 @@ export async function saveAlertSubscription(formData: FormData) {
     32,
   );
 
-  const daily_digest_hour = parseIntBounded(
-    "daily_digest_hour",
-    formData,
-    8,
-  );
+  const daily_digest_hour = parseIntBounded("daily_digest_hour", formData, 8);
 
   const is_active = Boolean(formData.get("is_active"));
 
@@ -74,9 +83,9 @@ export async function saveAlertSubscription(formData: FormData) {
     .upsert(payload, { onConflict: "user_id" });
 
   if (error) {
-    return { error: error.message };
+    return { errorCode: "GENERIC", message: error.message };
   }
 
-  revalidatePath("/dashboard");
+  revalidatePath("/[locale]/dashboard", "page");
   return { ok: true };
 }

@@ -1,12 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+
+import { Link, useRouter } from "@/i18n/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 type AccountChoice = "individual" | "grocery";
 
 export default function SignUpPage() {
+  const t = useTranslations("auth.signUp");
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
@@ -37,23 +41,24 @@ export default function SignUpPage() {
       setError(signError.message);
       return;
     }
-    window.location.href = "/auth/check-email";
+    router.push("/auth/check-email");
   }
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-lg flex-col justify-center px-4 py-16">
-      <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+      <h1 className="text-2xl font-semibold tracking-tight">{t("title")}</h1>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Households and grocery teams each get email verification through Supabase Auth. Already
-        registered?{" "}
+        {t("subtitleBefore")}{" "}
         <Link className="underline" href="/auth/login">
-          Sign in
+          {t("subtitleLink")}
         </Link>
         .
       </p>
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
         <fieldset className="flex flex-col gap-2 rounded-md border border-zinc-200 p-3 dark:border-zinc-700">
-          <legend className="px-1 text-sm font-medium">I am signing up as</legend>
+          <legend className="px-1 text-sm font-medium">
+            {t("accountTypeLegend")}
+          </legend>
           <label className="flex items-center gap-2 text-sm">
             <input
               type="radio"
@@ -61,7 +66,7 @@ export default function SignUpPage() {
               checked={accountType === "individual"}
               onChange={() => setAccountType("individual")}
             />
-            An individual / household
+            {t("individual")}
           </label>
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -70,11 +75,11 @@ export default function SignUpPage() {
               checked={accountType === "grocery"}
               onChange={() => setAccountType("grocery")}
             />
-            A grocery store or food retail team
+            {t("grocery")}
           </label>
         </fieldset>
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Full name or primary contact
+          {t("fullName")}
           <input
             required
             className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
@@ -83,7 +88,7 @@ export default function SignUpPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Work email
+          {t("email")}
           <input
             required
             autoComplete="email"
@@ -94,7 +99,7 @@ export default function SignUpPage() {
           />
         </label>
         <label className="flex flex-col gap-1 text-sm font-medium">
-          Password
+          {t("password")}
           <input
             required
             autoComplete="new-password"
@@ -113,7 +118,7 @@ export default function SignUpPage() {
           type="submit"
           className="rounded-md bg-sky-700 px-4 py-2 text-sm font-medium text-white disabled:opacity-60"
         >
-          {loading ? "Sending verification…" : "Request email confirmation"}
+          {loading ? t("submitting") : t("submit")}
         </button>
       </form>
     </div>

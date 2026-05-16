@@ -1,9 +1,22 @@
-import { buildAdvisory, type AdvisoryResult } from "@/lib/advisory/build-advisory";
+import { createTranslator } from "next-intl";
+
+import enMessages from "@/messages/en.json";
+import {
+  buildAdvisory,
+  type AdvisoryResult,
+  type AdvisoryTranslator,
+} from "@/lib/advisory/build-advisory";
 import {
   fetchOpenMeteoForecast,
   sliceNext24Hours,
   summarizeTemperatures,
 } from "@/lib/weather/openmeteo";
+
+const englishAdvisoryTranslator = createTranslator({
+  locale: "en",
+  messages: enMessages,
+  namespace: "advisory",
+}) as unknown as AdvisoryTranslator;
 
 export function renderAlertHtml(input: {
   advisory: AdvisoryResult;
@@ -88,6 +101,7 @@ export async function buildDigestForRecipient(input: {
     minThreshold: input.minTemp,
     maxThreshold: input.maxTemp,
     daily: forecast.daily,
+    t: englishAdvisoryTranslator,
   });
   const locationLabel =
     advisory.todayDaily?.date ?? `${input.lat.toFixed(2)}, ${input.lon.toFixed(2)}`;
