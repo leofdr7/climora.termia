@@ -29,24 +29,7 @@ export default async function RootLayout({
   const supabase = await createClient();
   const {
     data: { user },
-    error,
   } = await supabase.auth.getUser();
-
-  // #region agent log
-  fetch("http://127.0.0.1:7506/ingest/a0bd12c4-1da4-41dd-a1d3-4c2e22dde1ae", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "e26103" },
-    body: JSON.stringify({
-      sessionId: "e26103",
-      runId: "pre-fix",
-      hypothesisId: "H2",
-      location: "app/layout.tsx:33",
-      message: "RootLayout resolved Supabase user",
-      data: { hasUser: Boolean(user), errorName: error?.name ?? null },
-      timestamp: Date.now(),
-    }),
-  }).catch(() => {});
-  // #endregion
 
   return (
     <html
