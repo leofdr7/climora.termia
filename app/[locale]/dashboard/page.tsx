@@ -39,20 +39,20 @@ async function WeatherChatMessage({
       : `${advisory.currentTemperature.toFixed(1)} °C`;
 
   return (
-    <section className="rounded-3xl border border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-sky-50 p-6 shadow-lg dark:border-indigo-950 dark:from-indigo-950/40 dark:via-zinc-950 dark:to-sky-950/30">
+    <section className="rounded-3xl border border-teal-200/90 bg-gradient-to-br from-teal-50 via-white to-amber-50/90 p-6 shadow-lg dark:border-emerald-900/70 dark:from-emerald-950/50 dark:via-zinc-950 dark:to-teal-950/25">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-600 text-sm font-black text-white shadow-sm">
+        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-teal-600 text-sm font-bold text-white shadow-sm dark:bg-emerald-600">
           AI
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-800 dark:text-indigo-200">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-teal-800 dark:text-emerald-200">
             {t("weatherChatAssistant")}
           </p>
           <div className="mt-3 rounded-3xl rounded-tl-md bg-white p-5 text-sm leading-6 text-zinc-700 shadow-sm dark:bg-zinc-900 dark:text-zinc-200">
             <p className="font-semibold text-zinc-950 dark:text-zinc-50">
               {t("weatherChatGreeting")}
             </p>
-            <p className="mt-2 rounded-2xl bg-indigo-50 p-3 text-xs font-bold text-indigo-950 dark:bg-indigo-950/40 dark:text-indigo-100">
+            <p className="mt-2 rounded-2xl bg-teal-50 p-3 text-xs font-bold text-teal-950 dark:bg-teal-950/35 dark:text-teal-100">
               {isCurrentLocationPreview
                 ? t("currentLocationPreviewActive")
                 : t("savedLocationPreviewActive")}
@@ -79,12 +79,12 @@ async function WeatherChatMessage({
               {advisory.insights.recommendations.map((item) => (
                 <article
                   key={item.id}
-                  className="rounded-2xl bg-sky-50 p-3 dark:bg-sky-950/40"
+                  className="rounded-2xl bg-teal-50 p-3 dark:bg-teal-950/35"
                 >
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-sky-800 dark:text-sky-200">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-800 dark:text-teal-200">
                     {item.timeLabel}
                   </p>
-                  <h3 className="mt-1 font-black text-zinc-950 dark:text-zinc-50">
+                  <h3 className="font-display mt-1 font-semibold text-zinc-950 dark:text-zinc-50">
                     {item.title}
                   </h3>
                   <p className="mt-1 text-xs leading-5">{item.detail}</p>
@@ -188,11 +188,11 @@ export default async function DashboardPage({ params, searchParams }: Props) {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
-      <div className="rounded-3xl border border-sky-100 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
-        <p className="w-fit rounded-full bg-sky-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-800 dark:bg-sky-950 dark:text-sky-200">
+      <div className="rounded-3xl border border-teal-200/90 bg-white/95 p-8 shadow-lg dark:border-emerald-800/70 dark:bg-zinc-950">
+        <p className="w-fit rounded-full border border-amber-200/70 bg-teal-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-teal-900 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-100">
           {t("eyebrow")}
         </p>
-        <h1 className="mt-4 text-3xl font-black tracking-tight text-sky-950 dark:text-sky-50">
+        <h1 className="font-display mt-4 text-3xl font-semibold tracking-tight text-teal-950 dark:text-emerald-50">
           {t("welcome", { name: typedProfile.full_name })}
         </h1>
         <p className="mt-3 text-zinc-600 dark:text-zinc-300">

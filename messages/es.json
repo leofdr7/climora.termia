@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Asesor de Temperatura Satelital",
-    "metadataTitle": "Asesor de Temperatura Satelital",
-    "metadataDescription": "Guía de temperatura respaldada por Open-Meteo con avisos deterministas para hogares y operaciones de tiendas de comestibles.",
+    "title": "Climora Terminal",
+    "metadataTitle": "Climora Terminal",
+    "metadataDescription": "Consola climática solarpunk: guía meteorológica con Open-Meteo, avisos por reglas y datos abiertos para hogares, comercios y resiliencia comunitaria.",
     "header": {
       "register": "Registrarse",
       "signIn": "Iniciar sesión",
@@ -24,8 +24,8 @@
     }
   },
   "home": {
-    "eyebrow": "Informado por satélite · Datos abiertos",
-    "heading": "Asesor de temperatura para tiendas y vecindarios.",
+    "eyebrow": "Consola solarpunk · Datos climáticos abiertos",
+    "heading": "Una terminal viva para el clima, la cadena de frío y el cuidado del barrio.",
     "intro": "Regístrate como cliente o tienda, confirma por correo con Supabase Auth y recibe resúmenes basados en reglas a partir de los pronósticos numéricos de Open‑Meteo, con enlaces explícitos a programas oficiales de la UE y de EE. UU.",
     "ctaSignUp": "Comenzar registro",
     "ctaSignIn": "¿Ya confirmaste? Inicia sesión",
@@ -46,7 +46,7 @@
     "login": {
       "eyebrow": "Bienvenido",
       "title": "Iniciar sesión",
-      "subtitleBefore": "Accede a tu panel del asesor de temperatura. ¿Eres nuevo?",
+      "subtitleBefore": "Accede a tu panel de Climora Terminal. ¿Eres nuevo?",
       "subtitleLink": "Crea una cuenta",
       "email": "Correo electrónico",
       "password": "Contraseña",
@@ -75,7 +75,7 @@
   },
   "onboarding": {
     "eyebrow": "Onboarding",
-    "title": "Completa tu perfil del Asesor de Temperatura Satelital",
+    "title": "Completa tu perfil en Climora Terminal",
     "subtitle": "Cuéntanos si optimizas un plan doméstico o operaciones refrigeradas para una tienda. Las alertas y paneles usan este contexto en los textos; en v1 no afecta precios ni permisos.",
     "fullName": "Nombre completo",
     "accountType": "Tipo de cuenta",
@@ -186,7 +186,7 @@
     },
     "heatStress": {
       "title": "Ventana de estrés por calor",
-      "summary": "Se esperan picos de calor altos. El contexto satelital del terreno sigue beneficiándose de sensores puntuales en la tienda.",
+      "summary": "Se esperan picos de calor altos. El contexto del terreno guiado por modelos sigue beneficiándose de sensores puntuales en la tienda.",
       "bullet": "Verifica la cadena de frío en trayectos cortos de camión a estantería; el sol pleno sobre el asfalto puede superar la temperatura del aire."
     },
     "seasonalBlend": {

@@ -21,9 +21,9 @@ function toneClass(tone: HourlyTimelineItem["tone"]) {
     case "hot":
       return "border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-50";
     case "cold":
-      return "border-sky-200 bg-sky-50 text-sky-950 dark:border-sky-400/30 dark:bg-sky-400/10 dark:text-sky-50";
+      return "border-teal-200 bg-teal-50 text-teal-950 dark:border-teal-400/30 dark:bg-teal-400/10 dark:text-teal-50";
     case "rain":
-      return "border-indigo-200 bg-indigo-50 text-indigo-950 dark:border-indigo-400/30 dark:bg-indigo-400/10 dark:text-indigo-50";
+      return "border-teal-200 bg-teal-50/80 text-teal-950 dark:border-teal-400/30 dark:bg-teal-500/10 dark:text-teal-50";
     case "wind":
       return "border-zinc-200 bg-zinc-50 text-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50";
     case "sun":
@@ -68,7 +68,7 @@ function TimelineCard({
           <p className="text-xs font-bold uppercase tracking-[0.18em] opacity-70">
             {item.timeLabel}
           </p>
-          <h3 className="mt-1 text-lg font-black">{item.label}</h3>
+          <h3 className="font-display mt-1 text-lg font-semibold">{item.label}</h3>
         </div>
         <motion.p
           className="rounded-full bg-white/70 px-3 py-1 text-sm font-black dark:bg-zinc-950/60"
@@ -98,11 +98,11 @@ export function HourlyWeatherTimeline({ items }: { items: HourlyTimelineItem[] }
   return (
     <motion.section
       layout
-      className="rounded-3xl border border-sky-100 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-950"
+      className="rounded-3xl border border-teal-200/90 bg-white/95 p-6 shadow-lg dark:border-emerald-900/70 dark:bg-zinc-950"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-black text-sky-950 dark:text-sky-50">
+          <h2 className="font-display text-xl font-semibold text-teal-950 dark:text-emerald-50">
             {t("timelineTitle")}
           </h2>
           <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
@@ -114,7 +114,7 @@ export function HourlyWeatherTimeline({ items }: { items: HourlyTimelineItem[] }
           onClick={() => setExpanded((v) => !v)}
           whileHover={{ scale: 1.04, transition: SPRING }}
           whileTap={{ scale: 0.96, transition: SPRING }}
-          className="w-fit rounded-full border border-sky-200 px-4 py-2 text-sm font-bold text-sky-900 transition-colors hover:bg-sky-50 dark:border-sky-900 dark:text-sky-100 dark:hover:bg-sky-950"
+          className="w-fit rounded-full border border-teal-200 px-4 py-2 text-sm font-bold text-teal-900 transition-colors hover:bg-teal-50 dark:border-teal-800 dark:text-teal-100 dark:hover:bg-teal-950/50"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span

@@ -1,8 +1,8 @@
 {
   "site": {
-    "title": "Satellite Temperature Advisor",
-    "metadataTitle": "Satellite Temperature Advisor",
-    "metadataDescription": "Open-Meteo-backed temperature guidance with deterministic advisories for households and grocery operations.",
+    "title": "Climora Terminal",
+    "metadataTitle": "Climora Terminal",
+    "metadataDescription": "A solarpunk climate console: Open-Meteo weather guidance, rule-based advisories, and open data for households, grocers, and community resilience.",
     "header": {
       "register": "Register",
       "signIn": "Sign in",
@@ -24,8 +24,8 @@
     }
   },
   "home": {
-    "eyebrow": "Satellite-informed · Open data",
-    "heading": "Temperature adviser for groceries and neighbours.",
+    "eyebrow": "Solarpunk console · Open climate data",
+    "heading": "A living terminal for weather, cold-chain, and neighbourhood care.",
     "intro": "Register as a shopper or grocer, confirm via email through Supabase Auth, and receive rule-based summaries built on Open‑Meteo numerical forecasts—with explicit links back to EU and US authoritative programmes.",
     "ctaSignUp": "Start registration",
     "ctaSignIn": "Already confirmed? Sign in",
@@ -46,7 +46,7 @@
     "login": {
       "eyebrow": "Welcome",
       "title": "Sign in",
-      "subtitleBefore": "Access your temperature advisor dashboard. New here?",
+      "subtitleBefore": "Access your Climora Terminal dashboard. New here?",
       "subtitleLink": "Create an account",
       "email": "Email",
       "password": "Password",
@@ -75,7 +75,7 @@
   },
   "onboarding": {
     "eyebrow": "Onboarding",
-    "title": "Finish your Satellite Temperature Advisor profile",
+    "title": "Finish your Climora Terminal profile",
     "subtitle": "Tell us whether you're optimizing a household plan or refrigerated operations for a food retail site. Threshold alerts and dashboards use this context in copy — not pricing or permissions in v1.",
     "fullName": "Full name",
     "accountType": "Account type",
@@ -186,7 +186,7 @@
     },
     "heatStress": {
       "title": "Heat stress window",
-      "summary": "Hot peak temperatures are expected. Satellite-informed land context still benefits from point sensors at the store.",
+      "summary": "Hot peak temperatures are expected. Model-guided land context still benefits from point sensors at the store.",
       "bullet": "Verify cold-chain for short trips from truck to shelf; peak sun on asphalt can exceed air temperature."
     },
     "seasonalBlend": {

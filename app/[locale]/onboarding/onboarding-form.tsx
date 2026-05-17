@@ -55,7 +55,7 @@ export function OnboardingForm({ profile }: { profile: Profile | null }) {
           required
           name="full_name"
           defaultValue={profile?.full_name ?? ""}
-          className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+          className="rounded-2xl border border-zinc-200 bg-teal-50/70 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
         />
       </label>
       <fieldset className="flex flex-col gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 p-4 dark:border-emerald-950 dark:bg-emerald-950/30">
@@ -86,7 +86,7 @@ export function OnboardingForm({ profile }: { profile: Profile | null }) {
         <input
           name="store_name"
           defaultValue={profile?.store_name ?? ""}
-          className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+          className="rounded-2xl border border-zinc-200 bg-teal-50/70 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
           placeholder={t("storeNamePlaceholder")}
         />
       </label>
@@ -96,7 +96,7 @@ export function OnboardingForm({ profile }: { profile: Profile | null }) {
           name="business_address"
           rows={3}
           defaultValue={profile?.business_address ?? ""}
-          className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+          className="rounded-2xl border border-zinc-200 bg-teal-50/70 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
           placeholder={t("addressPlaceholder")}
         />
       </label>
@@ -114,7 +114,7 @@ export function OnboardingForm({ profile }: { profile: Profile | null }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-full bg-sky-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-sky-800 disabled:translate-y-0 disabled:opacity-60"
+        className="rounded-full bg-teal-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-teal-800 disabled:translate-y-0 disabled:opacity-60 dark:bg-emerald-600 dark:hover:bg-emerald-500"
       >
         {pending ? t("submitting") : t("submit")}
       </button>

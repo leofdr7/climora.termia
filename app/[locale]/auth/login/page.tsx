@@ -33,17 +33,17 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex min-h-[75vh] max-w-md flex-col justify-center px-4 py-16">
-      <div className="rounded-3xl border border-sky-100 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="mb-6 rounded-2xl bg-sky-50 p-4 dark:bg-sky-950/40">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-800 dark:text-sky-200">
+      <div className="rounded-3xl border border-teal-200/90 bg-white/95 p-8 shadow-lg dark:border-emerald-800/70 dark:bg-zinc-950">
+        <div className="mb-6 rounded-2xl border border-teal-100/80 bg-teal-50/90 p-4 dark:border-teal-900/60 dark:bg-teal-950/35">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-teal-800 dark:text-teal-200">
             {t("eyebrow")}
           </p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-sky-950 dark:text-sky-50">
+          <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-teal-950 dark:text-emerald-50">
             {t("title")}
           </h1>
           <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
             {t("subtitleBefore")}{" "}
-            <Link className="font-bold text-sky-800 underline" href="/auth/sign-up">
+            <Link className="font-bold text-teal-800 underline dark:text-teal-300" href="/auth/sign-up">
               {t("subtitleLink")}
             </Link>
             .
@@ -55,7 +55,7 @@ export default function LoginPage() {
           <input
             required
             autoComplete="email"
-            className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+            className="rounded-2xl border border-zinc-200 bg-teal-50/70 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
             type="email"
             value={email}
             onChange={(ev) => setEmail(ev.target.value)}
@@ -66,7 +66,7 @@ export default function LoginPage() {
           <input
             required
             autoComplete="current-password"
-            className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+            className="rounded-2xl border border-zinc-200 bg-teal-50/70 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
             type="password"
             value={password}
             onChange={(ev) => setPassword(ev.target.value)}
@@ -80,7 +80,7 @@ export default function LoginPage() {
         <button
           disabled={loading}
           type="submit"
-          className="rounded-full bg-sky-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-sky-800 disabled:translate-y-0 disabled:opacity-60"
+          className="rounded-full bg-teal-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-teal-800 disabled:translate-y-0 disabled:opacity-60 dark:bg-emerald-600 dark:hover:bg-emerald-500"
         >
           {loading ? t("submitting") : t("submit")}
         </button>

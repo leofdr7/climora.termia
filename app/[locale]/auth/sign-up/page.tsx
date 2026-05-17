@@ -46,12 +46,12 @@ export default function SignUpPage() {
 
   return (
     <div className="mx-auto flex min-h-[75vh] max-w-xl flex-col justify-center px-4 py-16">
-      <div className="rounded-3xl border border-emerald-100 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
-        <div className="mb-6 rounded-2xl bg-emerald-50 p-4 dark:bg-emerald-950/40">
+      <div className="rounded-3xl border border-teal-200/80 bg-white/95 p-8 shadow-lg dark:border-emerald-800/70 dark:bg-zinc-950">
+        <div className="mb-6 rounded-2xl border border-emerald-100/90 bg-emerald-50 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/40">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-800 dark:text-emerald-200">
             {t("eyebrow")}
           </p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-emerald-950 dark:text-emerald-50">
+          <h1 className="font-display mt-2 text-3xl font-semibold tracking-tight text-emerald-950 dark:text-emerald-50">
             {t("title")}
           </h1>
           <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">

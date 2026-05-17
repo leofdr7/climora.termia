@@ -46,7 +46,7 @@ export function CurrentLocationButton() {
         type="button"
         onClick={useCurrentLocation}
         disabled={state === "loading"}
-        className="w-fit rounded-full bg-indigo-600 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-indigo-700 disabled:translate-y-0 disabled:opacity-60"
+        className="w-fit rounded-full bg-teal-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-teal-800 disabled:translate-y-0 disabled:opacity-60 dark:bg-emerald-600 dark:hover:bg-emerald-500"
       >
         {state === "loading" ? t("currentLocationLoading") : t("currentLocationButton")}
       </button>

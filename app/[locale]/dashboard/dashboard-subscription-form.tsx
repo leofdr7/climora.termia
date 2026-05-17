@@ -176,7 +176,7 @@ export function DashboardSubscriptionForm({
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">{t("latitude")}</span>
           <div
-            className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 font-mono text-sm tabular-nums text-sky-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="rounded-2xl border border-teal-100 bg-teal-50 px-4 py-3 font-mono text-sm tabular-nums text-teal-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lat)}
@@ -188,7 +188,7 @@ export function DashboardSubscriptionForm({
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">{t("longitude")}</span>
           <div
-            className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 font-mono text-sm tabular-nums text-sky-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="rounded-2xl border border-teal-100 bg-teal-50 px-4 py-3 font-mono text-sm tabular-nums text-teal-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lon)}
@@ -256,10 +256,10 @@ export function DashboardSubscriptionForm({
           min={0}
           max={23}
           defaultValue={subscription?.daily_digest_hour ?? 8}
-          className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
+          className="rounded-2xl border border-zinc-200 bg-teal-50/80 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
         />
       </label>
-      <label className="flex items-center gap-3 rounded-2xl bg-sky-50 p-4 text-sm font-bold dark:bg-sky-950/30">
+      <label className="flex items-center gap-3 rounded-2xl bg-teal-50 p-4 text-sm font-bold dark:bg-teal-950/25">
         <input
           type="checkbox"
           name="is_active"

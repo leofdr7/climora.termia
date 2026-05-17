@@ -13,7 +13,7 @@ const LeafletForecastMap = dynamic<LeafletForecastMapProps>(
   {
     ssr: false,
     loading: () => (
-      <div className="h-full min-h-[21rem] animate-pulse rounded-[1.65rem] bg-sky-100 dark:bg-sky-950/70" />
+      <div className="h-full min-h-[21rem] animate-pulse rounded-[1.65rem] bg-teal-100 dark:bg-teal-950/50" />
     ),
   },
 );
@@ -50,13 +50,13 @@ export function ForecastTemperatureMap({
       : `${formatTemperature(dailyMin)} / ${formatTemperature(dailyMax)}`;
 
   return (
-    <section className="overflow-hidden rounded-3xl border border-sky-100 bg-white p-4 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+    <section className="overflow-hidden rounded-3xl border border-teal-200/90 bg-white/95 p-4 shadow-lg dark:border-emerald-900/70 dark:bg-zinc-950">
       <div className="mb-4 flex flex-col gap-3 px-2 pt-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-sky-800 dark:text-sky-200">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-teal-800 dark:text-teal-200">
             {t("mapEyebrow")}
           </p>
-          <h2 className="mt-2 text-xl font-black text-sky-950 dark:text-sky-50">
+          <h2 className="font-display mt-2 text-xl font-semibold text-teal-950 dark:text-emerald-50">
             {t("mapTitle")}
           </h2>
           <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
@@ -73,7 +73,7 @@ export function ForecastTemperatureMap({
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-[1.75rem] border border-sky-100 bg-sky-50 dark:border-zinc-800 dark:bg-zinc-900">
+      <div className="relative overflow-hidden rounded-[1.75rem] border border-teal-100/90 bg-teal-50/60 dark:border-zinc-800 dark:bg-zinc-900">
         <LeafletForecastMap
           center={center}
           currentTemperature={currentTemperature}
@@ -89,7 +89,7 @@ export function ForecastTemperatureMap({
           }}
           timezone={timezone}
         />
-        <div className="pointer-events-none absolute inset-x-4 bottom-4 z-[500] rounded-2xl bg-white/90 p-3 text-xs font-bold text-sky-950 shadow-lg backdrop-blur dark:bg-zinc-950/90 dark:text-sky-50">
+        <div className="pointer-events-none absolute inset-x-4 bottom-4 z-[500] rounded-2xl bg-white/90 p-3 text-xs font-bold text-teal-950 shadow-lg backdrop-blur dark:bg-zinc-950/90 dark:text-teal-50">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <span>{t("mapDailyRange")}: {dailyRange}</span>
             <span>{lat.toFixed(3)}, {lon.toFixed(3)}</span>

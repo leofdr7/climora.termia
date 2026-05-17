@@ -60,9 +60,9 @@ export function LeafletForecastMap({
             transform: translate(-50%, -100%);
             border-radius: 999px;
             border: 2px solid white;
-            background: linear-gradient(135deg, #f97316 0%, #facc15 52%, #38bdf8 100%);
+            background: linear-gradient(135deg, #f59e0b 0%, #34d399 52%, #0d9488 100%);
             box-shadow: 0 18px 40px rgba(15, 23, 42, 0.28);
-            color: #082f49;
+            color: #042f2e;
             font: 900 13px/1.1 system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             letter-spacing: -0.02em;
             padding: 10px 12px;
