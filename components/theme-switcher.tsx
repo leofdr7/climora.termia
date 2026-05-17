@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 
 import {
   THEME_COOKIE_MAX_AGE,
@@ -24,6 +24,17 @@ function writeThemeCookie(value: ThemePreference) {
   document.cookie = `${THEME_COOKIE_NAME}=${value}; path=/; max-age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax`;
 }
 
+const themeListeners = new Set<() => void>();
+
+function subscribeToThemeChanges(listener: () => void) {
+  themeListeners.add(listener);
+  return () => themeListeners.delete(listener);
+}
+
+function notifyThemeChange() {
+  themeListeners.forEach((listener) => listener());
+}
+
 function applyThemeClass(value: ThemePreference) {
   if (typeof document === "undefined") return;
   const root = document.documentElement;
@@ -41,13 +52,16 @@ function applyThemeClass(value: ThemePreference) {
 
 export function ThemeSwitcher() {
   const t = useTranslations("site.theme");
-  const [theme, setTheme] = useState<ThemePreference>("system");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setTheme(readThemeCookie());
-    setMounted(true);
-  }, []);
+  const theme = useSyncExternalStore(
+    subscribeToThemeChanges,
+    readThemeCookie,
+    () => "system",
+  );
+  const mounted = useSyncExternalStore(
+    subscribeToThemeChanges,
+    () => true,
+    () => false,
+  );
 
   useEffect(() => {
     if (theme !== "system") return;
@@ -60,9 +74,9 @@ export function ThemeSwitcher() {
 
   function cycleTheme() {
     const next = nextThemePreference(theme);
-    setTheme(next);
     writeThemeCookie(next);
     applyThemeClass(next);
+    notifyThemeChange();
   }
 
   const labels: Record<ThemePreference, string> = {

@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { CurrentLocationButton } from "@/app/[locale]/dashboard/current-location-button";
+import { ForecastChatbot } from "@/app/[locale]/dashboard/forecast-chatbot";
 import { ForecastTemperatureMap } from "@/app/[locale]/dashboard/forecast-temperature-map";
 import { HourlyWeatherTimeline } from "@/app/[locale]/dashboard/hourly-weather-timeline";
 import { Link, redirect } from "@/i18n/navigation";
@@ -239,6 +240,14 @@ export default async function DashboardPage({ params, searchParams }: Props) {
             timezone={previewTz}
           />
         </div>
+      ) : null}
+
+      {advisory ? (
+        <ForecastChatbot
+          advisory={advisory}
+          isCurrentLocationPreview={isCurrentLocationPreview}
+          timezone={previewTz}
+        />
       ) : null}
 
       {advisory ? <HourlyWeatherTimeline items={advisory.insights.timeline} /> : null}

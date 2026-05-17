@@ -1,0 +1,376 @@
+"use client";
+
+import { AnimatePresence, motion } from "motion/react";
+import { useTranslations } from "next-intl";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+
+import type {
+  AdvisoryResult,
+  HourlyTimelineItem,
+} from "@/lib/advisory/build-advisory";
+
+type ChatMessage = {
+  id: string;
+  role: "assistant" | "user";
+  text: string;
+};
+
+type ForecastChatbotProps = {
+  advisory: AdvisoryResult;
+  isCurrentLocationPreview: boolean;
+  timezone: string;
+};
+
+const SPRING = { type: "spring", stiffness: 420, damping: 32, mass: 0.8 } as const;
+
+function formatTemperature(value: number | null) {
+  if (value === null || Number.isNaN(value)) return "–";
+  return `${value.toFixed(1)} °C`;
+}
+
+function normalize(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function includesAny(value: string, terms: string[]) {
+  return terms.some((term) => value.includes(term));
+}
+
+function findHighest(
+  items: HourlyTimelineItem[],
+  getValue: (item: HourlyTimelineItem) => number | null,
+) {
+  return items.reduce<HourlyTimelineItem | null>((best, item) => {
+    const value = getValue(item);
+    const bestValue = best ? getValue(best) : null;
+
+    if (value === null || Number.isNaN(value)) return best;
+    if (bestValue === null || bestValue === undefined || value > bestValue) return item;
+    return best;
+  }, null);
+}
+
+export function ForecastChatbot({
+  advisory,
+  isCurrentLocationPreview,
+  timezone,
+}: ForecastChatbotProps) {
+  const t = useTranslations("dashboard");
+  const [input, setInput] = useState("");
+  const [isThinking, setIsThinking] = useState(false);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
+      id: "welcome",
+      role: "assistant",
+      text: t("forecastChatbotWelcome"),
+    },
+  ]);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const nextMessageId = useRef(0);
+
+  const quickPrompts = useMemo(
+    () => [
+      t("forecastChatbotQuickSummary"),
+      t("forecastChatbotQuickRain"),
+      t("forecastChatbotQuickHeat"),
+      t("forecastChatbotQuickCold"),
+    ],
+    [t],
+  );
+
+  const locationLabel = isCurrentLocationPreview
+    ? t("forecastChatbotLocationCurrent")
+    : t("forecastChatbotLocationSaved");
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages, isThinking]);
+
+  function buildReply(question: string) {
+    const normalized = normalize(question);
+    const timeline = advisory.insights.timeline;
+    const rainiest = findHighest(timeline, (item) => item.precipitationProbability);
+    const windiest = findHighest(timeline, (item) => item.windSpeed);
+    const strongestUv = findHighest(timeline, (item) => item.uvIndex);
+    const mainRecommendation = advisory.insights.recommendations[0];
+
+    if (
+      includesAny(normalized, [
+        "rain",
+        "umbrella",
+        "precip",
+        "lluvia",
+        "paraguas",
+        "llover",
+      ])
+    ) {
+      const probability = rainiest?.precipitationProbability ?? null;
+
+      if (rainiest && probability !== null && probability >= 25) {
+        return t("forecastChatbotReplyRain", {
+          time: rainiest.timeLabel,
+          probability: Math.round(probability),
+          advice: rainiest.advice,
+        });
+      }
+
+      return t("forecastChatbotReplyNoRain");
+    }
+
+    if (
+      includesAny(normalized, [
+        "hot",
+        "heat",
+        "warm",
+        "sun",
+        "uv",
+        "calor",
+        "sol",
+        "caliente",
+      ])
+    ) {
+      const peak = advisory.insights.peakHeat;
+      const uvCopy =
+        strongestUv?.uvIndex !== null && strongestUv?.uvIndex !== undefined
+          ? t("forecastChatbotUvAddon", {
+              time: strongestUv.timeLabel,
+              uv: strongestUv.uvIndex.toFixed(1),
+            })
+          : "";
+
+      if (peak) {
+        return t("forecastChatbotReplyHeat", {
+          time: peak.timeLabel,
+          temperature: formatTemperature(peak.temperature),
+          advice: peak.advice,
+          uv: uvCopy,
+        });
+      }
+    }
+
+    if (
+      includesAny(normalized, [
+        "cold",
+        "frost",
+        "freeze",
+        "chilly",
+        "frio",
+        "helada",
+        "congel",
+      ])
+    ) {
+      const coldest = advisory.insights.coldest;
+
+      if (coldest) {
+        return t("forecastChatbotReplyCold", {
+          time: coldest.timeLabel,
+          temperature: formatTemperature(coldest.temperature),
+          advice: coldest.advice,
+        });
+      }
+    }
+
+    if (includesAny(normalized, ["wind", "breeze", "viento", "ventoso"])) {
+      if (windiest?.windSpeed !== null && windiest?.windSpeed !== undefined) {
+        return t("forecastChatbotReplyWind", {
+          time: windiest.timeLabel,
+          speed: windiest.windSpeed.toFixed(1),
+          advice: windiest.advice,
+        });
+      }
+    }
+
+    if (
+      includesAny(normalized, [
+        "do",
+        "plan",
+        "recommend",
+        "next",
+        "summary",
+        "resumen",
+        "recomienda",
+        "hacer",
+        "planear",
+      ])
+    ) {
+      return t("forecastChatbotReplyPlan", {
+        summary: advisory.summary,
+        recommendation: mainRecommendation?.detail ?? t("forecastChatbotNoSpecificStep"),
+        threshold: advisory.breachDetail ?? t("forecastChatbotNoThresholdBreach"),
+      });
+    }
+
+    return t("forecastChatbotReplyFallback", {
+      summary: advisory.summary,
+      current: formatTemperature(advisory.currentTemperature),
+    });
+  }
+
+  function sendMessage(text: string) {
+    const trimmed = text.trim();
+    if (!trimmed || isThinking) return;
+    nextMessageId.current += 1;
+
+    const userMessage: ChatMessage = {
+      id: `user-${nextMessageId.current}`,
+      role: "user",
+      text: trimmed,
+    };
+
+    setMessages((current) => [...current, userMessage]);
+    setInput("");
+    setIsThinking(true);
+
+    window.setTimeout(() => {
+      nextMessageId.current += 1;
+      setMessages((current) => [
+        ...current,
+        {
+          id: `assistant-${nextMessageId.current}`,
+          role: "assistant",
+          text: buildReply(trimmed),
+        },
+      ]);
+      setIsThinking(false);
+    }, 420);
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    sendMessage(input);
+  }
+
+  return (
+    <section className="relative overflow-hidden rounded-[2rem] border border-cyan-100 bg-cyan-950 p-1 shadow-2xl shadow-cyan-950/15 dark:border-cyan-400/20">
+      <div className="pointer-events-none absolute -left-24 top-8 size-72 rounded-full bg-cyan-300/25 blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 bottom-0 size-64 rounded-full bg-lime-300/20 blur-3xl" />
+      <div className="relative grid gap-0 overflow-hidden rounded-[1.75rem] bg-slate-950 text-white lg:grid-cols-[0.78fr_1.22fr]">
+        <div className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.24),transparent_36%),linear-gradient(160deg,rgba(8,47,73,0.98),rgba(15,23,42,0.96))] p-6 lg:border-b-0 lg:border-r">
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-200">
+            {t("forecastChatbotEyebrow")}
+          </p>
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-white">
+            {t("forecastChatbotTitle")}
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-cyan-50/80">
+            {t("forecastChatbotSubtitle")}
+          </p>
+
+          <div className="mt-6 grid gap-3 text-sm">
+            <div className="rounded-3xl border border-white/10 bg-white/10 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-cyan-100/70">
+                {t("forecastChatbotForecastContext")}
+              </p>
+              <p className="mt-2 font-bold">{locationLabel}</p>
+              <p className="mt-1 text-cyan-50/70">{timezone}</p>
+            </div>
+            <div className="rounded-3xl border border-lime-200/20 bg-lime-300/10 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-lime-100/80">
+                {t("forecastChatbotCurrent")}
+              </p>
+              <p className="mt-2 text-3xl font-black text-lime-100">
+                {formatTemperature(advisory.currentTemperature)}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {quickPrompts.map((prompt) => (
+              <motion.button
+                key={prompt}
+                type="button"
+                onClick={() => sendMessage(prompt)}
+                whileHover={{ y: -2, transition: SPRING }}
+                whileTap={{ scale: 0.96, transition: SPRING }}
+                className="rounded-full border border-white/10 bg-white/10 px-3 py-2 text-xs font-bold text-cyan-50 transition-colors hover:bg-white/15"
+              >
+                {prompt}
+              </motion.button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex min-h-[33rem] flex-col bg-cyan-50 text-slate-950 dark:bg-slate-900 dark:text-white">
+          <div
+            ref={scrollRef}
+            className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6"
+            aria-live="polite"
+          >
+            <AnimatePresence initial={false}>
+              {messages.map((message) => (
+                <motion.article
+                  key={message.id}
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                  transition={{ duration: 0.28 }}
+                  className={`flex ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`max-w-[86%] rounded-[1.4rem] px-4 py-3 text-sm leading-6 shadow-sm ${
+                      message.role === "user"
+                        ? "rounded-br-md bg-cyan-700 text-white"
+                        : "rounded-bl-md border border-cyan-100 bg-white text-slate-800 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
+                    }`}
+                  >
+                    <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.18em] opacity-55">
+                      {message.role === "user"
+                        ? t("forecastChatbotUserLabel")
+                        : t("forecastChatbotBotLabel")}
+                    </p>
+                    <p>{message.text}</p>
+                  </div>
+                </motion.article>
+              ))}
+            </AnimatePresence>
+
+            {isThinking ? (
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="w-fit rounded-full border border-cyan-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-cyan-800 shadow-sm dark:border-slate-600 dark:bg-slate-700 dark:text-cyan-200"
+              >
+                {t("forecastChatbotThinking")}
+              </motion.div>
+            ) : null}
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="border-t border-cyan-100 bg-white/80 p-4 backdrop-blur dark:border-slate-700 dark:bg-slate-800"
+          >
+            <label htmlFor="forecast-chat-input" className="sr-only">
+              {t("forecastChatbotInputLabel")}
+            </label>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <input
+                id="forecast-chat-input"
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                placeholder={t("forecastChatbotPlaceholder")}
+                className="min-h-12 flex-1 rounded-full border border-cyan-100 bg-cyan-50 px-5 text-sm font-medium text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-cyan-400 dark:focus:ring-cyan-400/20"
+              />
+              <motion.button
+                type="submit"
+                disabled={isThinking || input.trim().length === 0}
+                whileHover={{ scale: 1.03, transition: SPRING }}
+                whileTap={{ scale: 0.96, transition: SPRING }}
+                className="min-h-12 rounded-full bg-lime-300 px-6 text-sm font-black text-slate-950 shadow-lg shadow-lime-900/10 transition disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {t("forecastChatbotSend")}
+              </motion.button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  );
+}
