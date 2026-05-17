@@ -82,7 +82,7 @@ export function LeafletForecastMap({
     <MapContainer
       aria-label={labels.ariaLabel}
       center={center}
-      className="h-full min-h-[21rem] w-full rounded-[1.65rem]"
+      className="h-full min-h-[28rem] w-full rounded-[1.65rem] sm:min-h-[32rem]"
       scrollWheelZoom={false}
       zoom={10}
       zoomControl

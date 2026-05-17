@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { DashboardSubscriptionForm } from "@/app/[locale]/dashboard/dashboard-subscription-form";
+import { AnimatedWallpaper } from "@/components/animated-wallpaper";
 import { Link, redirect } from "@/i18n/navigation";
 import { getProfile } from "@/lib/auth/session";
 import type { AlertSubscription, Profile } from "@/lib/types/database";
@@ -29,34 +30,39 @@ export default async function AlertSettingsPage({ params }: Props) {
   const subscription = (subRow as AlertSubscription | null) ?? null;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 px-4 py-10">
-      <div className="rounded-3xl border border-teal-200/80 bg-white/95 p-8 shadow-lg dark:border-emerald-800/70 dark:bg-zinc-950">
-        <p className="w-fit rounded-full border border-amber-200/70 bg-emerald-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-100">
+    <main className="relative isolate -mt-[5.25rem] min-h-screen overflow-hidden bg-[#020713] px-4 pb-14 pt-28 text-white">
+      <AnimatedWallpaper />
+      <div className="space-stars" />
+      <div className="space-topography absolute inset-0 opacity-45" />
+      <div className="relative mx-auto max-w-4xl space-y-8">
+      <div className="relative overflow-hidden rounded-[2rem] border border-[#00aaff]/25 bg-[#031426]/80 p-8 shadow-2xl shadow-cyan-950/30 backdrop-blur-md">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-52 w-52 rounded-full bg-[#00aaff]/20 blur-3xl" />
+        <p className="w-fit rounded-full border border-[#00ff88]/35 bg-[#00ff88]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-[#00ff88]">
           {t("settingsEyebrow")}
         </p>
-        <h1 className="font-display mt-4 text-3xl font-semibold tracking-tight text-emerald-950 dark:text-emerald-100">
+        <h1 className="font-display mt-4 text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl">
           {t("settingsTitle")}
         </h1>
-        <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+        <p className="mt-3 text-sm leading-6 text-slate-300">
           {t("settingsSubtitle")}
         </p>
         <Link
           href="/dashboard"
-          className="mt-5 inline-flex rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm font-bold text-teal-900 hover:bg-teal-100 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-100"
+          className="mt-5 inline-flex rounded-full border border-[#00aaff]/30 bg-[#00aaff]/12 px-4 py-2 text-sm font-bold text-[#8fe7ff] hover:-translate-y-0.5 hover:bg-[#00aaff]/20"
         >
           {t("settingsBackToDashboard")}
         </Link>
       </div>
 
-      <div className="rounded-3xl border border-emerald-100/90 bg-white/95 p-6 shadow-lg dark:border-emerald-900/60 dark:bg-zinc-950">
-        <h2 className="font-display text-xl font-semibold text-emerald-950 dark:text-emerald-100">
+      <div className="rounded-[2rem] border border-white/12 bg-white/10 p-6 shadow-2xl shadow-black/30 backdrop-blur-md">
+        <h2 className="font-display text-xl font-bold uppercase text-white">
           {t("alertTitle")}
         </h2>
-        <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+        <p className="mt-2 text-sm leading-6 text-slate-300">
           {t.rich("alertSubtitle", {
             secret: "CRON_SECRET",
             code: (chunks) => (
-              <code className="rounded-md bg-amber-100 px-1.5 py-0.5 text-xs text-amber-950 dark:bg-amber-950 dark:text-amber-100">
+              <code className="rounded-md border border-[#00ff88]/25 bg-[#00ff88]/10 px-1.5 py-0.5 text-xs text-[#00ff88]">
                 {chunks}
               </code>
             ),
@@ -69,6 +75,7 @@ export default async function AlertSettingsPage({ params }: Props) {
           />
         </div>
       </div>
-    </div>
+      </div>
+    </main>
   );
 }

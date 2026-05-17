@@ -247,11 +247,11 @@ export function ForecastChatbot({
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2rem] border border-cyan-100 bg-cyan-950 p-1 shadow-2xl shadow-cyan-950/15 dark:border-cyan-400/20">
+    <section className="relative overflow-hidden rounded-[2rem] border border-[#00aaff]/25 bg-[#031426]/85 p-1 shadow-2xl shadow-cyan-950/30 backdrop-blur-md">
       <div className="pointer-events-none absolute -left-24 top-8 size-72 rounded-full bg-cyan-300/25 blur-3xl" />
       <div className="pointer-events-none absolute -right-20 bottom-0 size-64 rounded-full bg-lime-300/20 blur-3xl" />
       <div className="relative grid gap-0 overflow-hidden rounded-[1.75rem] bg-slate-950 text-white lg:grid-cols-[0.78fr_1.22fr]">
-        <div className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.24),transparent_36%),linear-gradient(160deg,rgba(8,47,73,0.98),rgba(15,23,42,0.96))] p-6 lg:border-b-0 lg:border-r">
+        <div className="border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(0,170,255,0.28),transparent_36%),linear-gradient(160deg,rgba(3,20,38,0.98),rgba(2,7,19,0.96))] p-6 lg:border-b-0 lg:border-r">
           <p className="text-xs font-black uppercase tracking-[0.24em] text-cyan-200">
             {t("forecastChatbotEyebrow")}
           </p>
@@ -296,7 +296,7 @@ export function ForecastChatbot({
           </div>
         </div>
 
-        <div className="flex min-h-[33rem] flex-col bg-cyan-50 text-slate-950 dark:bg-slate-900 dark:text-white">
+        <div className="flex min-h-[33rem] flex-col bg-[#061527] text-white">
           <div
             ref={scrollRef}
             className="flex-1 space-y-4 overflow-y-auto p-5 sm:p-6"
@@ -317,8 +317,8 @@ export function ForecastChatbot({
                   <div
                     className={`max-w-[86%] rounded-[1.4rem] px-4 py-3 text-sm leading-6 shadow-sm ${
                       message.role === "user"
-                        ? "rounded-br-md bg-cyan-700 text-white"
-                        : "rounded-bl-md border border-cyan-100 bg-white text-slate-800 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
+                        ? "rounded-br-md bg-[#00aaff] text-[#001427]"
+                        : "rounded-bl-md border border-white/10 bg-white/10 text-slate-100"
                     }`}
                   >
                     <p className="mb-1 text-[0.65rem] font-black uppercase tracking-[0.18em] opacity-55">
@@ -336,7 +336,7 @@ export function ForecastChatbot({
               <motion.div
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="w-fit rounded-full border border-cyan-100 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-cyan-800 shadow-sm dark:border-slate-600 dark:bg-slate-700 dark:text-cyan-200"
+                className="w-fit rounded-full border border-[#00aaff]/25 bg-[#00aaff]/10 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#8fe7ff] shadow-sm"
               >
                 {t("forecastChatbotThinking")}
               </motion.div>
@@ -345,7 +345,7 @@ export function ForecastChatbot({
 
           <form
             onSubmit={handleSubmit}
-            className="border-t border-cyan-100 bg-white/80 p-4 backdrop-blur dark:border-slate-700 dark:bg-slate-800"
+            className="border-t border-white/10 bg-black/25 p-4 backdrop-blur"
           >
             <label htmlFor="forecast-chat-input" className="sr-only">
               {t("forecastChatbotInputLabel")}
@@ -356,14 +356,14 @@ export function ForecastChatbot({
                 value={input}
                 onChange={(event) => setInput(event.target.value)}
                 placeholder={t("forecastChatbotPlaceholder")}
-                className="min-h-12 flex-1 rounded-full border border-cyan-100 bg-cyan-50 px-5 text-sm font-medium text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-100 dark:border-slate-600 dark:bg-slate-700 dark:text-white dark:placeholder:text-slate-400 dark:focus:border-cyan-400 dark:focus:ring-cyan-400/20"
+                className="min-h-12 flex-1 rounded-full border border-white/15 bg-[#031426] px-5 text-sm font-medium text-white outline-none transition placeholder:text-slate-500 focus:border-[#00aaff] focus:bg-[#071b30] focus:ring-4 focus:ring-[#00aaff]/15"
               />
               <motion.button
                 type="submit"
                 disabled={isThinking || input.trim().length === 0}
                 whileHover={{ scale: 1.03, transition: SPRING }}
                 whileTap={{ scale: 0.96, transition: SPRING }}
-                className="min-h-12 rounded-full bg-lime-300 px-6 text-sm font-black text-slate-950 shadow-lg shadow-lime-900/10 transition disabled:cursor-not-allowed disabled:opacity-50"
+                className="min-h-12 rounded-full bg-[#00ff88] px-6 text-sm font-black text-[#00140c] shadow-lg shadow-emerald-950/20 transition hover:bg-[#00aaff] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {t("forecastChatbotSend")}
               </motion.button>

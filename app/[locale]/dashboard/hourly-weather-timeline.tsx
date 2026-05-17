@@ -19,17 +19,17 @@ function formatMaybe(value: number | null, suffix: string) {
 function toneClass(tone: HourlyTimelineItem["tone"]) {
   switch (tone) {
     case "hot":
-      return "border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-400/30 dark:bg-amber-400/10 dark:text-amber-50";
+      return "border-amber-300/25 bg-amber-300/10 text-amber-50";
     case "cold":
-      return "border-teal-200 bg-teal-50 text-teal-950 dark:border-teal-400/30 dark:bg-teal-400/10 dark:text-teal-50";
+      return "border-[#00aaff]/25 bg-[#00aaff]/10 text-cyan-50";
     case "rain":
-      return "border-teal-200 bg-teal-50/80 text-teal-950 dark:border-teal-400/30 dark:bg-teal-500/10 dark:text-teal-50";
+      return "border-[#00aaff]/25 bg-[#00aaff]/10 text-cyan-50";
     case "wind":
-      return "border-zinc-200 bg-zinc-50 text-zinc-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-50";
+      return "border-white/15 bg-white/10 text-slate-50";
     case "sun":
-      return "border-yellow-200 bg-yellow-50 text-yellow-950 dark:border-yellow-400/30 dark:bg-yellow-400/10 dark:text-yellow-50";
+      return "border-yellow-300/25 bg-yellow-300/10 text-yellow-50";
     default:
-      return "border-emerald-200 bg-emerald-50 text-emerald-950 dark:border-emerald-400/30 dark:bg-emerald-400/10 dark:text-emerald-50";
+      return "border-[#00ff88]/25 bg-[#00ff88]/10 text-emerald-50";
   }
 }
 
@@ -58,7 +58,7 @@ function TimelineCard({
         scale: 1.015,
         transition: SPRING,
       }}
-      className={`rounded-3xl border p-4 ${toneClass(item.tone)}`}
+      className={`rounded-3xl border p-4 shadow-lg shadow-black/15 backdrop-blur-sm ${toneClass(item.tone)}`}
     >
       <div className="flex items-start justify-between gap-3">
         <div>
@@ -71,7 +71,7 @@ function TimelineCard({
           <h3 className="font-display mt-1 text-lg font-semibold">{item.label}</h3>
         </div>
         <motion.p
-          className="rounded-full bg-white/70 px-3 py-1 text-sm font-black dark:bg-zinc-950/60"
+          className="rounded-full border border-white/10 bg-black/35 px-3 py-1 text-sm font-black"
           layout
         >
           {formatMaybe(item.temperature, " °C")}
@@ -98,14 +98,14 @@ export function HourlyWeatherTimeline({ items }: { items: HourlyTimelineItem[] }
   return (
     <motion.section
       layout
-      className="rounded-3xl border border-teal-200/90 bg-white/95 p-6 shadow-lg dark:border-emerald-900/70 dark:bg-zinc-950"
+      className="rounded-[2rem] border border-white/12 bg-white/10 p-6 text-white shadow-2xl shadow-black/25 backdrop-blur-md"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-display text-xl font-semibold text-teal-950 dark:text-emerald-50">
+          <h2 className="font-display text-xl font-bold uppercase text-white">
             {t("timelineTitle")}
           </h2>
-          <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+          <p className="mt-1 text-sm leading-6 text-slate-300">
             {t("timelineSubtitle")}
           </p>
         </div>
@@ -114,7 +114,7 @@ export function HourlyWeatherTimeline({ items }: { items: HourlyTimelineItem[] }
           onClick={() => setExpanded((v) => !v)}
           whileHover={{ scale: 1.04, transition: SPRING }}
           whileTap={{ scale: 0.96, transition: SPRING }}
-          className="w-fit rounded-full border border-teal-200 px-4 py-2 text-sm font-bold text-teal-900 transition-colors hover:bg-teal-50 dark:border-teal-800 dark:text-teal-100 dark:hover:bg-teal-950/50"
+          className="w-fit rounded-full border border-[#00aaff]/30 px-4 py-2 text-sm font-bold text-[#8fe7ff] transition-colors hover:bg-[#00aaff]/10"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span

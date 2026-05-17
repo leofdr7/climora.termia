@@ -32,7 +32,7 @@ export function renderAlertHtml(input: {
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>${escapeHtml(advisory.title)} · Climora Terminal</title>
+<title>${escapeHtml(advisory.title)} · Climora</title>
 <style>
   body{font-family:'Segoe UI',system-ui,sans-serif;background:#fffbeb;color:#134e4a;padding:24px;}
   .card{border-radius:14px;border:1px solid #5eead4;padding:22px;background:#ecfdf5;}
@@ -120,6 +120,6 @@ export async function buildDigestForRecipient(input: {
   return {
     advisory,
     html,
-    subject: `[Climora Terminal] ${advisory.thresholdBreached ? "Threshold note · " : ""}${advisory.title}`,
+    subject: `[Climora] ${advisory.thresholdBreached ? "Threshold note · " : ""}${advisory.title}`,
   };
 }

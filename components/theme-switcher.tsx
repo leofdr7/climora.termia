@@ -52,7 +52,7 @@ function applyThemeClass(value: ThemePreference) {
 
 export function ThemeSwitcher() {
   const t = useTranslations("site.theme");
-  const theme = useSyncExternalStore(
+  const theme = useSyncExternalStore<ThemePreference>(
     subscribeToThemeChanges,
     readThemeCookie,
     () => "system",
@@ -94,7 +94,7 @@ export function ThemeSwitcher() {
       title={ariaLabel}
       onClick={cycleTheme}
       suppressHydrationWarning
-      className="inline-flex items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-700 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+      className="inline-flex items-center gap-1.5 rounded-md border border-white/25 bg-white/10 px-2 py-1.5 text-xs font-medium text-white hover:bg-white/15"
     >
       <ThemeIcon theme={theme} mounted={mounted} className="h-4 w-4" />
       <span className="hidden sm:inline">{labels[theme]}</span>

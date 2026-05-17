@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { AnimatedWallpaper } from "@/components/animated-wallpaper";
 import { CurrentLocationButton } from "@/app/[locale]/dashboard/current-location-button";
 import { ForecastChatbot } from "@/app/[locale]/dashboard/forecast-chatbot";
 import { ForecastTemperatureMap } from "@/app/[locale]/dashboard/forecast-temperature-map";
@@ -40,20 +41,22 @@ async function WeatherChatMessage({
       : `${advisory.currentTemperature.toFixed(1)} °C`;
 
   return (
-    <section className="rounded-3xl border border-teal-200/90 bg-gradient-to-br from-teal-50 via-white to-amber-50/90 p-6 shadow-lg dark:border-emerald-900/70 dark:from-emerald-950/50 dark:via-zinc-950 dark:to-teal-950/25">
+    <section className="relative overflow-hidden rounded-[2rem] border border-[#00aaff]/25 bg-[#031426]/80 p-6 text-white shadow-2xl shadow-cyan-950/30 backdrop-blur-md">
+      <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#00aaff]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 left-10 h-52 w-52 rounded-full bg-[#00ff88]/10 blur-3xl" />
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start">
-        <div className="flex size-11 shrink-0 items-center justify-center rounded-2xl bg-teal-600 text-sm font-bold text-white shadow-sm dark:bg-emerald-600">
+        <div className="relative flex size-11 shrink-0 items-center justify-center rounded-2xl border border-[#00ff88]/30 bg-[#00ff88]/12 text-sm font-bold text-[#00ff88] shadow-lg shadow-emerald-950/30">
           AI
         </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-teal-800 dark:text-emerald-200">
+        <div className="relative min-w-0 flex-1">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.24em] text-[#8fe7ff]">
             {t("weatherChatAssistant")}
           </p>
-          <div className="mt-3 rounded-3xl rounded-tl-md bg-white p-5 text-sm leading-6 text-zinc-700 shadow-sm dark:bg-zinc-900 dark:text-zinc-200">
-            <p className="font-semibold text-zinc-950 dark:text-zinc-50">
+          <div className="mt-3 rounded-3xl rounded-tl-md border border-white/10 bg-black/30 p-5 text-sm leading-6 text-slate-300 shadow-sm backdrop-blur">
+            <p className="font-semibold text-white">
               {t("weatherChatGreeting")}
             </p>
-            <p className="mt-2 rounded-2xl bg-teal-50 p-3 text-xs font-bold text-teal-950 dark:bg-teal-950/35 dark:text-teal-100">
+            <p className="mt-2 rounded-2xl border border-[#00aaff]/20 bg-[#00aaff]/10 p-3 text-xs font-bold text-cyan-100">
               {isCurrentLocationPreview
                 ? t("currentLocationPreviewActive")
                 : t("savedLocationPreviewActive")}
@@ -73,19 +76,19 @@ async function WeatherChatMessage({
               </p>
             ) : null}
             <p className="mt-3">{advisory.summary}</p>
-            <p className="mt-4 font-semibold text-zinc-950 dark:text-zinc-50">
+            <p className="mt-4 font-semibold text-white">
               {t("weatherChatRecommendations")}
             </p>
             <div className="mt-2 grid gap-3 lg:grid-cols-3">
               {advisory.insights.recommendations.map((item) => (
                 <article
                   key={item.id}
-                  className="rounded-2xl bg-teal-50 p-3 dark:bg-teal-950/35"
+                  className="rounded-2xl border border-white/10 bg-white/10 p-3"
                 >
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-800 dark:text-teal-200">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#00ff88]">
                     {item.timeLabel}
                   </p>
-                  <h3 className="font-display mt-1 font-semibold text-zinc-950 dark:text-zinc-50">
+                  <h3 className="font-display mt-1 font-semibold text-white">
                     {item.title}
                   </h3>
                   <p className="mt-1 text-xs leading-5">{item.detail}</p>
@@ -93,7 +96,7 @@ async function WeatherChatMessage({
               ))}
             </div>
             {advisory.breachDetail ? (
-              <p className="mt-3 rounded-2xl bg-amber-100 p-3 font-medium text-amber-950 dark:bg-amber-400/15 dark:text-amber-50">
+              <p className="mt-3 rounded-2xl border border-amber-300/30 bg-amber-300/12 p-3 font-medium text-amber-100">
                 {advisory.breachDetail}
               </p>
             ) : null}
@@ -188,17 +191,22 @@ export default async function DashboardPage({ params, searchParams }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
-      <div className="rounded-3xl border border-teal-200/90 bg-white/95 p-8 shadow-lg dark:border-emerald-800/70 dark:bg-zinc-950">
-        <p className="w-fit rounded-full border border-amber-200/70 bg-teal-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-teal-900 dark:border-teal-800 dark:bg-teal-950 dark:text-teal-100">
+    <main className="relative isolate -mt-[5.25rem] min-h-screen overflow-hidden bg-[#020713] px-4 pb-14 pt-28 text-white">
+      <AnimatedWallpaper />
+      <div className="space-stars" />
+      <div className="space-topography absolute inset-0 opacity-45" />
+      <div className="relative mx-auto max-w-6xl space-y-8">
+      <div className="relative overflow-hidden rounded-[2rem] border border-[#00aaff]/25 bg-[#031426]/80 p-8 shadow-2xl shadow-cyan-950/30 backdrop-blur-md">
+        <div className="pointer-events-none absolute right-10 top-8 h-36 w-36 rounded-full bg-[#00ff88]/10 blur-3xl" />
+        <p className="w-fit rounded-full border border-[#00aaff]/40 bg-[#00aaff]/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-[#8fe7ff]">
           {t("eyebrow")}
         </p>
-        <h1 className="font-display mt-4 text-3xl font-semibold tracking-tight text-teal-950 dark:text-emerald-50">
+        <h1 className="font-display mt-4 text-3xl font-bold uppercase tracking-tight text-white sm:text-4xl">
           {t("welcome", { name: typedProfile.full_name })}
         </h1>
-        <p className="mt-3 text-zinc-600 dark:text-zinc-300">
+        <p className="mt-3 text-slate-300">
           {t("accountTypeLabel")}{" "}
-          <span className="font-bold text-zinc-900 dark:text-zinc-100">
+          <span className="font-bold text-[#00ff88]">
             {typedProfile.account_type === "grocery"
               ? t("accountGrocery")
               : t("accountIndividual")}
@@ -216,7 +224,7 @@ export default async function DashboardPage({ params, searchParams }: Props) {
           </Suspense>
           <Link
             href="/settings/alerts"
-            className="w-fit rounded-full border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-900 hover:bg-emerald-100 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
+            className="space-pulse w-fit rounded-full border border-[#00ff88]/30 bg-[#00ff88]/15 px-5 py-3 text-sm font-bold text-[#00ff88] hover:-translate-y-0.5 hover:bg-[#00ff88]/25"
           >
             {t("manageAlertSettings")}
           </Link>
@@ -251,6 +259,7 @@ export default async function DashboardPage({ params, searchParams }: Props) {
       ) : null}
 
       {advisory ? <HourlyWeatherTimeline items={advisory.insights.timeline} /> : null}
-    </div>
+      </div>
+    </main>
   );
 }

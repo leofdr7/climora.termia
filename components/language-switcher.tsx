@@ -63,7 +63,7 @@ export function LanguageSwitcher() {
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         disabled={pending}
-        className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-900 hover:bg-amber-100 disabled:opacity-60 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-100 dark:hover:bg-amber-900"
+        className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-2 text-xs font-semibold text-white hover:bg-white/15 disabled:opacity-60 sm:px-3"
       >
         <GlobeIcon className="h-4 w-4" aria-hidden="true" />
         <span className="tabular-nums">
@@ -73,7 +73,7 @@ export function LanguageSwitcher() {
       {open ? (
         <ul
           role="menu"
-          className="absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-2xl border border-amber-100 bg-white text-sm shadow-lg dark:border-zinc-800 dark:bg-zinc-950"
+          className="absolute right-0 z-[60] mt-2 w-40 overflow-hidden rounded-2xl border border-white/15 bg-zinc-900/95 text-sm text-white shadow-xl shadow-black/40 backdrop-blur-md"
         >
           {routing.locales.map((loc) => {
             const isActive = loc === currentLocale;
@@ -85,12 +85,12 @@ export function LanguageSwitcher() {
                   onClick={() => selectLocale(loc)}
                   className={
                     isActive
-                      ? "flex w-full items-center justify-between gap-2 bg-amber-100 px-3 py-2 text-left font-semibold text-amber-950 dark:bg-amber-950 dark:text-amber-100"
-                      : "flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-zinc-700 hover:bg-amber-50 dark:text-zinc-300 dark:hover:bg-zinc-900"
+                      ? "flex w-full items-center justify-between gap-2 bg-white/15 px-3 py-2 text-left font-semibold text-white"
+                      : "flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-zinc-200 hover:bg-white/10"
                   }
                 >
                   <span>{t(LABEL_KEY_BY_LOCALE[loc] ?? "english")}</span>
-                  <span className="text-xs text-zinc-500 tabular-nums">
+                  <span className="text-xs text-zinc-400 tabular-nums">
                     {FLAG_BY_LOCALE[loc] ?? loc.toUpperCase()}
                   </span>
                 </button>

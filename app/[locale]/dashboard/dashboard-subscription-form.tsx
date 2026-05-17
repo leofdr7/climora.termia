@@ -97,6 +97,12 @@ export function DashboardSubscriptionForm({
     return translated;
   }
 
+  const fieldClass =
+    "rounded-2xl border border-white/15 bg-[#061527]/85 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-[#00aaff] focus:bg-[#071b30] focus:ring-4 focus:ring-[#00aaff]/15";
+  const readoutClass =
+    "rounded-2xl border border-[#00aaff]/20 bg-[#00aaff]/10 px-4 py-3 font-mono text-sm tabular-nums text-[#8fe7ff]";
+  const hintClass = "text-xs font-normal text-slate-400";
+
   return (
     <form
       className="flex flex-col gap-5"
@@ -118,25 +124,25 @@ export function DashboardSubscriptionForm({
       <input type="hidden" name="lat" value={Number.isFinite(lat) ? lat : 40.7128} />
       <input type="hidden" name="lon" value={Number.isFinite(lon) ? lon : -74.006} />
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
         {t("alertEmail")}
         <input
           name="alert_email"
           type="email"
           required
           defaultValue={subscription?.alert_email ?? defaultEmail}
-          className="rounded-2xl border border-zinc-200 bg-emerald-50 px-4 py-3 outline-none focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-emerald-950"
+          className={fieldClass}
         />
       </label>
 
-      <div className="rounded-3xl bg-emerald-50 p-4 dark:bg-emerald-950/30">
-        <label className="flex flex-col gap-1 text-sm font-medium">
+      <div className="rounded-3xl border border-white/10 bg-black/25 p-4">
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
           {t("country")}
           <select
             aria-label={t("country")}
             value={countryId}
             onChange={(e) => applyCountry(e.target.value)}
-            className="rounded-2xl border border-emerald-100 bg-white px-4 py-3 outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-emerald-950"
+            className={fieldClass}
           >
             {LATIN_AMERICA_COUNTRIES.map((c) => (
               <option key={c.id} value={c.id}>
@@ -145,19 +151,19 @@ export function DashboardSubscriptionForm({
             ))}
             <option value={OTHER_COUNTRY_ID}>{t("countryOther")}</option>
           </select>
-          <span className="text-xs font-normal text-zinc-500">
+          <span className={hintClass}>
             {t("countryHint")}
           </span>
         </label>
 
-        <label className="mt-4 flex flex-col gap-1 text-sm font-medium">
+        <label className="mt-4 flex flex-col gap-1 text-sm font-medium text-slate-200">
           {t("region")}
           <select
             aria-label={t("region")}
             value={isOther ? "" : regionId}
             disabled={isOther || !selectedCountry?.regions.length}
             onChange={(e) => applyRegion(e.target.value)}
-            className="rounded-2xl border border-emerald-100 bg-white px-4 py-3 outline-none disabled:cursor-not-allowed disabled:opacity-60 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-emerald-950"
+            className={`${fieldClass} disabled:cursor-not-allowed disabled:opacity-60`}
           >
             {isOther ? (
               <option value="">{t("regionUseSaved")}</option>
@@ -174,32 +180,32 @@ export function DashboardSubscriptionForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-medium">{t("latitude")}</span>
+          <span className="text-sm font-medium text-slate-200">{t("latitude")}</span>
           <div
-            className="rounded-2xl border border-teal-100 bg-teal-50 px-4 py-3 font-mono text-sm tabular-nums text-teal-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className={readoutClass}
             aria-live="polite"
           >
             {formatCoord(lat)}
           </div>
-          <span className="text-xs font-normal text-zinc-500">
+          <span className={hintClass}>
             {t("coordsHint")}
           </span>
         </div>
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-medium">{t("longitude")}</span>
+          <span className="text-sm font-medium text-slate-200">{t("longitude")}</span>
           <div
-            className="rounded-2xl border border-teal-100 bg-teal-50 px-4 py-3 font-mono text-sm tabular-nums text-teal-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className={readoutClass}
             aria-live="polite"
           >
             {formatCoord(lon)}
           </div>
-          <span className="text-xs font-normal text-zinc-500">
+          <span className={hintClass}>
             {t("coordsHint")}
           </span>
         </div>
       </div>
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
         {t("timezone")}
         <input
           name="timezone"
@@ -211,44 +217,44 @@ export function DashboardSubscriptionForm({
           }}
           className={
             isOther
-              ? "rounded-2xl border border-zinc-200 bg-emerald-50 px-4 py-3 outline-none focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-emerald-950"
-              : "cursor-default rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              ? fieldClass
+              : "cursor-default rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-slate-300"
           }
         />
-        <span className="text-xs font-normal text-zinc-500">
+        <span className={hintClass}>
           {isOther ? t("timezoneHintOther") : t("timezoneHint")}
         </span>
       </label>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
           {t("minAlert")}
           <input
             name="min_temp_alert_celsius"
             type="number"
             step="0.1"
             defaultValue={subscription?.min_temp_alert_celsius ?? 2}
-            className="rounded-2xl border border-zinc-200 bg-amber-50 px-4 py-3 outline-none focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-amber-950"
+            className="rounded-2xl border border-amber-300/25 bg-amber-300/10 px-4 py-3 text-amber-50 outline-none focus:border-amber-300 focus:bg-amber-300/15 focus:ring-4 focus:ring-amber-300/15"
           />
-          <span className="text-xs font-normal text-zinc-500">
+          <span className={hintClass}>
             {t("minAlertHint")}
           </span>
         </label>
-        <label className="flex flex-col gap-1 text-sm font-medium">
+        <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
           {t("maxAlert")}
           <input
             name="max_temp_alert_celsius"
             type="number"
             step="0.1"
             defaultValue={subscription?.max_temp_alert_celsius ?? 32}
-            className="rounded-2xl border border-zinc-200 bg-rose-50 px-4 py-3 outline-none focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-rose-950"
+            className="rounded-2xl border border-rose-300/25 bg-rose-400/10 px-4 py-3 text-rose-50 outline-none focus:border-rose-300 focus:bg-rose-400/15 focus:ring-4 focus:ring-rose-300/15"
           />
-          <span className="text-xs font-normal text-zinc-500">
+          <span className={hintClass}>
             {t("maxAlertHint")}
           </span>
         </label>
       </div>
-      <label className="flex flex-col gap-1 text-sm font-medium">
+      <label className="flex flex-col gap-1 text-sm font-medium text-slate-200">
         {t("digestHour")}
         <input
           name="daily_digest_hour"
@@ -256,16 +262,16 @@ export function DashboardSubscriptionForm({
           min={0}
           max={23}
           defaultValue={subscription?.daily_digest_hour ?? 8}
-          className="rounded-2xl border border-zinc-200 bg-teal-50/80 px-4 py-3 outline-none focus:border-teal-400 focus:bg-white focus:ring-4 focus:ring-teal-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-teal-950"
+          className={fieldClass}
         />
       </label>
-      <label className="flex items-center gap-3 rounded-2xl bg-teal-50 p-4 text-sm font-bold dark:bg-teal-950/25">
+      <label className="flex items-center gap-3 rounded-2xl border border-[#00ff88]/20 bg-[#00ff88]/10 p-4 text-sm font-bold text-[#00ff88]">
         <input
           type="checkbox"
           name="is_active"
           value="on"
           defaultChecked={subscription?.is_active ?? true}
-          className="h-5 w-5 rounded border-zinc-300"
+          className="h-5 w-5 rounded border-white/30 bg-black/30 accent-[#00ff88]"
         />
         {t("active")}
       </label>
@@ -273,8 +279,8 @@ export function DashboardSubscriptionForm({
         <p
           className={
             feedback.type === "ok"
-              ? "rounded-2xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-              : "rounded-2xl bg-red-50 p-3 text-sm font-medium text-red-700 dark:bg-red-950/40 dark:text-red-300"
+              ? "rounded-2xl border border-[#00ff88]/25 bg-[#00ff88]/10 p-3 text-sm font-medium text-[#00ff88]"
+              : "rounded-2xl border border-red-400/25 bg-red-500/10 p-3 text-sm font-medium text-red-200"
           }
         >
           {feedback.text}
@@ -283,7 +289,7 @@ export function DashboardSubscriptionForm({
       <button
         type="submit"
         disabled={pending}
-        className="w-fit rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-emerald-800 disabled:translate-y-0 disabled:opacity-60"
+        className="space-pulse w-fit rounded-full bg-[#00ff88] px-5 py-3 text-sm font-bold text-[#00140c] shadow-md hover:-translate-y-0.5 hover:bg-[#00aaff] disabled:translate-y-0 disabled:opacity-60"
       >
         {pending ? t("submitting") : t("submit")}
       </button>
