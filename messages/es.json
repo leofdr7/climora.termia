@@ -6,7 +6,9 @@
     "header": {
       "register": "Registrarse",
       "signIn": "Iniciar sesión",
-      "signOut": "Cerrar sesión"
+      "signOut": "Cerrar sesión",
+      "dashboard": "Panel",
+      "alertSettings": "Ajustes de alertas"
     },
     "language": {
       "label": "Idioma",
@@ -98,13 +100,47 @@
     "accountTypeLabel": "Tipo de cuenta:",
     "accountIndividual": "Individual",
     "accountGrocery": "Tienda / comercio",
+    "manageAlertSettings": "Gestionar ubicación guardada",
+    "currentLocationButton": "Usar mi ubicación actual",
+    "currentLocationLoading": "Obteniendo ubicación...",
+    "currentLocationError": "No pudimos leer la ubicación del navegador. Puedes actualizar tu ubicación guardada en ajustes.",
+    "currentLocationPreviewActive": "Usando tu ubicación actual del navegador para esta vista previa. Tus ajustes guardados de alerta no cambiaron.",
+    "savedLocationPreviewActive": "Usando tu ubicación guardada de alertas. Puedes previsualizar tu ubicación actual cuando quieras.",
+    "settingsEyebrow": "Ajustes",
+    "settingsTitle": "Ubicación guardada para alertas",
+    "settingsSubtitle": "Mantén aquí tus coordenadas por defecto, umbrales, hora del resumen y detalles de correo para que el panel se enfoque en la guía del clima.",
+    "settingsBackToDashboard": "Volver al panel",
     "advisoryTitle": "Vista previa del aviso en vivo",
-    "advisorySubtitle": "La vista previa usa tus coordenadas guardadas o los valores por defecto de NYC hasta que guardes una suscripción.",
-    "advisoryUnavailable": "Vista previa del pronóstico no disponible. Configura coordenadas/zona horaria abajo y asegúrate de tener acceso de red a Open-Meteo.",
+    "advisorySubtitle": "La vista previa usa tu ubicación guardada, tu ubicación actual de vista previa o los valores por defecto de NYC hasta que guardes ajustes.",
+    "advisoryUnavailable": "Vista previa del pronóstico no disponible. Actualiza tu ubicación guardada y asegúrate de tener acceso de red a Open-Meteo.",
     "advisoryEyebrow": "Aviso basado en reglas (próximas ~24 horas)",
     "advisoryThresholdNote": "Nota del umbral:",
     "advisoryDailyAirRange": "Modelo diario de aire mín./máx. para {date}: {min} / {max} °C (Open-Meteo).",
     "advisoryAttribution": "Datos meteorológicos por Open-Meteo (el uso comercial requiere atribución; ver Referencias). Los pronósticos son orientación del modelo: complementa con sensores calibrados in situ.",
+    "weatherChatAssistant": "Asistente meteorológico",
+    "weatherChatGreeting": "Esto es lo que yo tendría en cuenta hoy.",
+    "weatherChatCurrentTemperature": "La temperatura del aire modelada más cercana en este momento es {temperature}.",
+    "weatherChatCurrentTemperatureUnavailable": "La temperatura actual modelada no está disponible todavía, pero la guía de pronóstico de abajo sigue siendo útil.",
+    "weatherChatDailyRange": "Para {date}, Open-Meteo modela el rango diario del aire en {min} / {max} °C.",
+    "weatherChatRecommendations": "Próximos pasos recomendados:",
+    "timelineTitle": "Línea horaria de confort",
+    "timelineSubtitle": "Abre la línea horaria para ver cómo se sienten las próximas horas y qué hacer en cada momento.",
+    "timelineShowMore": "Mostrar más horas",
+    "timelineShowLess": "Mostrar menos horas",
+    "timelineFeelsLike": "Sensación: {value}",
+    "timelineHumidity": "Humedad: {value}",
+    "timelineRain": "Lluvia: {value}",
+    "timelineWind": "Viento: {value}",
+    "mapEyebrow": "Mapa de temperatura",
+    "mapTitle": "Ubicación del pronóstico",
+    "mapSubtitleCurrent": "Vista previa interactiva centrada en la ubicación de tu navegador.",
+    "mapSubtitleSaved": "Vista previa interactiva centrada en tu ubicación guardada de alertas.",
+    "mapAriaLabel": "Mapa interactivo que muestra la ubicación de temperatura del pronóstico",
+    "mapCurrent": "Temperatura modelada actual",
+    "mapDailyRange": "Mín. / máx. diario",
+    "mapLocation": "Ubicación",
+    "mapTimezone": "Zona horaria",
+    "mapUnavailable": "No disponible",
     "alertTitle": "Entrega de alertas",
     "alertSubtitle": "Configura a dónde enviamos los resúmenes de temperatura. Los cron deben llamar a la ruta segura usando <code>{secret}</code> — ver README.",
     "form": {
@@ -164,7 +200,55 @@
     "defaultBullet": "Los pronósticos combinan modelos globales; compara siempre con instrumentos locales en andenes y vitrinas.",
     "breachCold": "La temperatura del aire puede caer cerca o por debajo de {threshold}°C ({observed}°C en la ventana del día siguiente); revisa la cadena de frío y los productos sensibles a heladas.",
     "breachHotOnly": "El pico de temperatura puede superar {threshold}°C (~{observed}°C); vigila las vitrinas refrigeradas y la comodidad del personal.",
-    "breachHotAfterCold": " Posible estrés por calor por encima de {threshold}°C (pico ~{observed}°C)."
+    "breachHotAfterCold": " Posible estrés por calor por encima de {threshold}°C (pico ~{observed}°C).",
+    "recommendations": {
+      "hydration": {
+        "title": "Toma agua antes de las {time}",
+        "detail": "Puede llegar a {temperature}°C cerca de las {time}. Ten agua a mano, baja el ritmo de tareas al aire libre y revisa a quien trabaje bajo el sol."
+      },
+      "uv": {
+        "title": "Protege tu piel cerca de las {time}",
+        "detail": "El UV puede subir a {uv}. Sombrero, sombra y protector solar harán más llevadera la parte calurosa del día."
+      },
+      "cold": {
+        "title": "Prepárate para el frío cerca de las {time}",
+        "detail": "La mínima puede bajar a {temperature}°C. Cierra zonas expuestas, protege productos sensibles y considera capas más abrigadas."
+      },
+      "rain": {
+        "title": "Ten paraguas listo cerca de las {time}",
+        "detail": "La probabilidad de lluvia llega a cerca de {probability}%. Planea entregas, caminatas o mandados con un poco más de margen."
+      },
+      "steady": {
+        "title": "Día estable, pero mantente atento",
+        "detail": "El punto más cálido parece llegar cerca de las {time} con {temperature}°C. Puedes seguir tu rutina normal y revisar sensores locales."
+      }
+    },
+    "timeline": {
+      "hot": {
+        "label": "Calor subiendo",
+        "advice": "Hidrátate temprano y mantén cortas las tareas pesadas al aire libre."
+      },
+      "cold": {
+        "label": "Bolsa de frío",
+        "advice": "Añade una capa y protege lo sensible al aire frío."
+      },
+      "rain": {
+        "label": "Posible lluvia",
+        "advice": "Date margen y ten cubiertas o paraguas cerca."
+      },
+      "wind": {
+        "label": "Ventoso",
+        "advice": "Asegura objetos ligeros y espera una sensación más intensa afuera."
+      },
+      "sun": {
+        "label": "Sol fuerte",
+        "advice": "Busca sombra y protege tu piel durante esta ventana."
+      },
+      "calm": {
+        "label": "Cómodo",
+        "advice": "Esta ventana se ve manejable; mantén tus planes normales."
+      }
+    }
   },
   "citations": {
     "title": "Referencias autorizadas",

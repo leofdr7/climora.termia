@@ -5,6 +5,11 @@ const OPEN_METEO = "https://api.open-meteo.com/v1/forecast";
 export type HourlyPoint = {
   time: string;
   temperature_2m: number | null;
+  apparent_temperature: number | null;
+  relative_humidity_2m: number | null;
+  precipitation_probability: number | null;
+  uv_index: number | null;
+  wind_speed_10m: number | null;
   soil_temperature_6cm: number | null;
 };
 
@@ -29,6 +34,11 @@ type OpenMeteoJson = {
   hourly?: {
     time: string[];
     temperature_2m?: (number | null)[];
+    apparent_temperature?: (number | null)[];
+    relative_humidity_2m?: (number | null)[];
+    precipitation_probability?: (number | null)[];
+    uv_index?: (number | null)[];
+    wind_speed_10m?: (number | null)[];
     soil_temperature_6cm?: (number | null)[];
   };
   daily?: {
@@ -47,7 +57,8 @@ export async function fetchOpenMeteoForecast(
   const params = new URLSearchParams({
     latitude: String(lat),
     longitude: String(lon),
-    hourly: "temperature_2m,soil_temperature_6cm",
+    hourly:
+      "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation_probability,uv_index,wind_speed_10m,soil_temperature_6cm",
     daily: "temperature_2m_max,temperature_2m_min",
     forecast_days: "3",
     timezone,
@@ -76,6 +87,11 @@ export async function fetchOpenMeteoForecast(
       hourly.push({
         time: hourlyBlock.time[i],
         temperature_2m: hourlyBlock.temperature_2m[i] ?? null,
+        apparent_temperature: hourlyBlock.apparent_temperature?.[i] ?? null,
+        relative_humidity_2m: hourlyBlock.relative_humidity_2m?.[i] ?? null,
+        precipitation_probability: hourlyBlock.precipitation_probability?.[i] ?? null,
+        uv_index: hourlyBlock.uv_index?.[i] ?? null,
+        wind_speed_10m: hourlyBlock.wind_speed_10m?.[i] ?? null,
         soil_temperature_6cm: hourlyBlock.soil_temperature_6cm?.[i] ?? null,
       });
     }

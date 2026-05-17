@@ -87,5 +87,6 @@ export async function saveAlertSubscription(
   }
 
   revalidatePath("/[locale]/dashboard", "page");
+  revalidatePath("/[locale]/settings/alerts", "page");
   return { ok: true };
 }

@@ -6,7 +6,9 @@
     "header": {
       "register": "Register",
       "signIn": "Sign in",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "dashboard": "Dashboard",
+      "alertSettings": "Alert settings"
     },
     "language": {
       "label": "Language",
@@ -98,13 +100,47 @@
     "accountTypeLabel": "Account type:",
     "accountIndividual": "Individual",
     "accountGrocery": "Grocery / retail",
+    "manageAlertSettings": "Manage saved location",
+    "currentLocationButton": "Use my current location",
+    "currentLocationLoading": "Getting location...",
+    "currentLocationError": "We could not read your browser location. You can still update your saved location in settings.",
+    "currentLocationPreviewActive": "Using your current browser location for this preview. Your saved alert settings were not changed.",
+    "savedLocationPreviewActive": "Using your saved alert location. You can preview your current location whenever you want.",
+    "settingsEyebrow": "Settings",
+    "settingsTitle": "Saved alert location",
+    "settingsSubtitle": "Keep your default coordinates, alert thresholds, digest hour, and email delivery details here so the dashboard can stay focused on weather guidance.",
+    "settingsBackToDashboard": "Back to dashboard",
     "advisoryTitle": "Live advisory preview",
-    "advisorySubtitle": "Preview uses your saved coordinates or NYC defaults until you save a subscription.",
-    "advisoryUnavailable": "Forecast preview unavailable. Configure coordinates/timezone below and ensure network access is allowed for Open-Meteo.",
+    "advisorySubtitle": "Preview uses your saved location, your current-location preview, or NYC defaults until you save settings.",
+    "advisoryUnavailable": "Forecast preview unavailable. Update your saved location and ensure network access is allowed for Open-Meteo.",
     "advisoryEyebrow": "Rule-based advisory (next ~24 hours)",
     "advisoryThresholdNote": "Threshold note:",
     "advisoryDailyAirRange": "Modeled daily air min/max for {date}: {min} / {max} °C (Open-Meteo).",
     "advisoryAttribution": "Weather data by Open-Meteo (Commercial use requires attribution; see References). Forecasts are model guidance — supplement with calibrated sensors on site.",
+    "weatherChatAssistant": "Weather assistant",
+    "weatherChatGreeting": "Here is what I would plan around today.",
+    "weatherChatCurrentTemperature": "The nearest modeled air temperature right now is {temperature}.",
+    "weatherChatCurrentTemperatureUnavailable": "The current modeled air temperature is not available yet, but the forecast guidance below is still useful.",
+    "weatherChatDailyRange": "For {date}, Open-Meteo models the daily air range at {min} / {max} °C.",
+    "weatherChatRecommendations": "Recommended next steps:",
+    "timelineTitle": "Hourly comfort timeline",
+    "timelineSubtitle": "Open the timeline to see how the next hours feel and what to do at each point.",
+    "timelineShowMore": "Show more hours",
+    "timelineShowLess": "Show fewer hours",
+    "timelineFeelsLike": "Feels: {value}",
+    "timelineHumidity": "Humidity: {value}",
+    "timelineRain": "Rain: {value}",
+    "timelineWind": "Wind: {value}",
+    "mapEyebrow": "Temperature map",
+    "mapTitle": "Forecast location",
+    "mapSubtitleCurrent": "Interactive preview centered on your browser location.",
+    "mapSubtitleSaved": "Interactive preview centered on your saved alert location.",
+    "mapAriaLabel": "Interactive map showing the forecast temperature location",
+    "mapCurrent": "Current modeled temperature",
+    "mapDailyRange": "Daily min / max",
+    "mapLocation": "Location",
+    "mapTimezone": "Timezone",
+    "mapUnavailable": "Unavailable",
     "alertTitle": "Alert delivery",
     "alertSubtitle": "Configure where we email temperature digests. Cron jobs should call the secured API route using <code>{secret}</code> — see README.",
     "form": {
@@ -164,7 +200,55 @@
     "defaultBullet": "Forecasts blend global models; always compare with local instruments for loading docks and display cases.",
     "breachCold": "Air temperature may drop near or below {threshold}°C ({observed}°C in the next-day window); review cold-chain and frost-sensitive goods.",
     "breachHotOnly": "Peak temperature may exceed {threshold}°C (~{observed}°C); monitor refrigerated cases and staffing comfort.",
-    "breachHotAfterCold": " Heat stress possible above {threshold}°C (peak ~{observed}°C)."
+    "breachHotAfterCold": " Heat stress possible above {threshold}°C (peak ~{observed}°C).",
+    "recommendations": {
+      "hydration": {
+        "title": "Drink water before {time}",
+        "detail": "It may reach {temperature}°C around {time}. Keep water nearby, slow down outdoor errands, and check on anyone working in the sun."
+      },
+      "uv": {
+        "title": "Protect your skin around {time}",
+        "detail": "UV may climb near {uv}. A hat, shade, and sunscreen will make the hot part of the day feel less harsh."
+      },
+      "cold": {
+        "title": "Warm up the cold window near {time}",
+        "detail": "The low may drop to {temperature}°C. Close exposed areas, protect sensitive goods, and plan warmer layers."
+      },
+      "rain": {
+        "title": "Keep an umbrella ready near {time}",
+        "detail": "Rain probability reaches about {probability}%. Plan deliveries, walks, or errands with a little extra buffer."
+      },
+      "steady": {
+        "title": "A steady day, but stay aware",
+        "detail": "The warmest point looks near {time} at {temperature}°C. You can follow your normal routine and keep an eye on local sensors."
+      }
+    },
+    "timeline": {
+      "hot": {
+        "label": "Heat building",
+        "advice": "Hydrate early and keep heavy outdoor tasks short."
+      },
+      "cold": {
+        "label": "Cold pocket",
+        "advice": "Add a layer and protect anything sensitive to chilly air."
+      },
+      "rain": {
+        "label": "Rain possible",
+        "advice": "Give yourself a buffer and keep covers or an umbrella nearby."
+      },
+      "wind": {
+        "label": "Breezy",
+        "advice": "Secure light items and expect it to feel sharper outside."
+      },
+      "sun": {
+        "label": "Strong sun",
+        "advice": "Look for shade and protect your skin during this window."
+      },
+      "calm": {
+        "label": "Comfortable",
+        "advice": "This window looks manageable; keep normal plans moving."
+      }
+    }
   },
   "citations": {
     "title": "Authoritative references",

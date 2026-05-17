@@ -94,13 +94,18 @@ export async function buildDigestForRecipient(input: {
   );
   const windowSlice = sliceNext24Hours(forecast.hourly);
   const stats = summarizeTemperatures(windowSlice);
+  const currentTemperature =
+    windowSlice.find((point) => point.temperature_2m !== null)?.temperature_2m ?? null;
   const advisory = buildAdvisory({
     min24h: stats.min,
     max24h: stats.max,
+    currentTemperature,
     soilMean: stats.soilMean,
     minThreshold: input.minTemp,
     maxThreshold: input.maxTemp,
+    hourly: windowSlice,
     daily: forecast.daily,
+    locale: "en",
     t: englishAdvisoryTranslator,
   });
   const locationLabel =

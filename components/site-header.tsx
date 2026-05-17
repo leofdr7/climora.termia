@@ -19,7 +19,21 @@ export function SiteHeader({ user }: { user: User | null }) {
         </Link>
         <nav className="flex items-center gap-3 text-sm font-medium text-zinc-700 dark:text-zinc-200">
           {user ? (
-            <SignOutButton />
+            <>
+              <Link
+                className="hidden rounded-full px-3 py-2 text-sky-900 hover:bg-sky-50 dark:text-sky-100 dark:hover:bg-sky-950 sm:inline-flex"
+                href="/dashboard"
+              >
+                {t("header.dashboard")}
+              </Link>
+              <Link
+                className="hidden rounded-full px-3 py-2 text-emerald-900 hover:bg-emerald-50 dark:text-emerald-100 dark:hover:bg-emerald-950 sm:inline-flex"
+                href="/settings/alerts"
+              >
+                {t("header.alertSettings")}
+              </Link>
+              <SignOutButton />
+            </>
           ) : (
             <>
               <Link
