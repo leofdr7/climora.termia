@@ -12,6 +12,13 @@
       "label": "Language",
       "english": "English",
       "spanish": "Español"
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System",
+      "toggle": "Theme: {current}. Click to switch to {next}."
     }
   },
   "home": {

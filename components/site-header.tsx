@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { SignOutButton } from "@/components/sign-out-button";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Link } from "@/i18n/navigation";
 
 export function SiteHeader({ user }: { user: User | null }) {
@@ -35,6 +36,7 @@ export function SiteHeader({ user }: { user: User | null }) {
               </Link>
             </>
           )}
+          <ThemeSwitcher />
           <LanguageSwitcher />
         </nav>
       </div>

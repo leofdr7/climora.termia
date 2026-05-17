@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 import "../globals.css";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeScript } from "@/components/theme-script";
 import { routing } from "@/i18n/routing";
 import { createClient } from "@/lib/supabase/server";
+import { THEME_COOKIE_NAME, parseThemeCookie } from "@/lib/theme/theme";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,6 +52,12 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
 
+  const cookieStore = await cookies();
+  const themePreference = parseThemeCookie(
+    cookieStore.get(THEME_COOKIE_NAME)?.value,
+  );
+  const themeClass = themePreference === "dark" ? "dark" : "";
+
   const supabase = await createClient();
   const {
     data: { user },
@@ -57,8 +66,12 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased ${themeClass}`.trim()}
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="flex min-h-full flex-col bg-sky-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
         <NextIntlClientProvider>
           <SiteHeader user={user} />
