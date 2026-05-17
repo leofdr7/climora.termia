@@ -32,11 +32,11 @@ export function renderAlertHtml(input: {
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>${escapeHtml(advisory.title)} · Satellite Temperature Advisor</title>
+<title>${escapeHtml(advisory.title)} · Climora Terminal</title>
 <style>
-  body{font-family:'Segoe UI',system-ui,sans-serif;background:#ffffff;color:#0f172a;padding:24px;}
-  .card{border-radius:14px;border:1px solid #bae6fd;padding:22px;background:#f0f9ff;}
-  h1{font-size:20px;margin:0 0 10px;color:#082f49;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#fffbeb;color:#134e4a;padding:24px;}
+  .card{border-radius:14px;border:1px solid #5eead4;padding:22px;background:#ecfdf5;}
+  h1{font-size:20px;margin:0 0 10px;color:#042f2e;}
   p{margin:0 0 10px;line-height:1.5;color:#334155;}
   ul{margin:8px 0 12px;padding-left:18px;}
   .meta{font-size:12px;color:#64748b;}
@@ -120,6 +120,6 @@ export async function buildDigestForRecipient(input: {
   return {
     advisory,
     html,
-    subject: `[Temperature Advisor] ${advisory.thresholdBreached ? "Threshold note · " : ""}${advisory.title}`,
+    subject: `[Climora Terminal] ${advisory.thresholdBreached ? "Threshold note · " : ""}${advisory.title}`,
   };
 }
