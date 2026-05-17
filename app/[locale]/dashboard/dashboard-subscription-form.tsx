@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import {
   saveAlertSubscription,
@@ -61,15 +61,6 @@ export function DashboardSubscriptionForm({
   const isOther = countryId === OTHER_COUNTRY_ID;
   const selectedCountry = getCountryById(countryId);
 
-  useEffect(() => {
-    const d = deriveFromSubscription(subscription);
-    setLat(d.lat);
-    setLon(d.lon);
-    setTimezone(d.timezone);
-    setCountryId(d.countryId);
-    setRegionId(d.regionId);
-  }, [subscription]);
-
   function applyCountry(nextCountryId: string) {
     setCountryId(nextCountryId);
     if (nextCountryId === OTHER_COUNTRY_ID) {
@@ -108,7 +99,7 @@ export function DashboardSubscriptionForm({
 
   return (
     <form
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-5"
       action={(formData) => {
         setFeedback(null);
         startTransition(async () => {
@@ -134,56 +125,58 @@ export function DashboardSubscriptionForm({
           type="email"
           required
           defaultValue={subscription?.alert_email ?? defaultEmail}
-          className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
+          className="rounded-2xl border border-zinc-200 bg-emerald-50 px-4 py-3 outline-none focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-emerald-950"
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t("country")}
-        <select
-          aria-label={t("country")}
-          value={countryId}
-          onChange={(e) => applyCountry(e.target.value)}
-          className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
-        >
-          {LATIN_AMERICA_COUNTRIES.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label}
-            </option>
-          ))}
-          <option value={OTHER_COUNTRY_ID}>{t("countryOther")}</option>
-        </select>
-        <span className="text-xs font-normal text-zinc-500">
-          {t("countryHint")}
-        </span>
-      </label>
-
-      <label className="flex flex-col gap-1 text-sm font-medium">
-        {t("region")}
-        <select
-          aria-label={t("region")}
-          value={isOther ? "" : regionId}
-          disabled={isOther || !selectedCountry?.regions.length}
-          onChange={(e) => applyRegion(e.target.value)}
-          className="rounded-md border border-zinc-300 bg-white px-3 py-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-950"
-        >
-          {isOther ? (
-            <option value="">{t("regionUseSaved")}</option>
-          ) : (
-            selectedCountry?.regions.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.label}
+      <div className="rounded-3xl bg-emerald-50 p-4 dark:bg-emerald-950/30">
+        <label className="flex flex-col gap-1 text-sm font-medium">
+          {t("country")}
+          <select
+            aria-label={t("country")}
+            value={countryId}
+            onChange={(e) => applyCountry(e.target.value)}
+            className="rounded-2xl border border-emerald-100 bg-white px-4 py-3 outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-emerald-950"
+          >
+            {LATIN_AMERICA_COUNTRIES.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.label}
               </option>
-            ))
-          )}
-        </select>
-      </label>
+            ))}
+            <option value={OTHER_COUNTRY_ID}>{t("countryOther")}</option>
+          </select>
+          <span className="text-xs font-normal text-zinc-500">
+            {t("countryHint")}
+          </span>
+        </label>
+
+        <label className="mt-4 flex flex-col gap-1 text-sm font-medium">
+          {t("region")}
+          <select
+            aria-label={t("region")}
+            value={isOther ? "" : regionId}
+            disabled={isOther || !selectedCountry?.regions.length}
+            onChange={(e) => applyRegion(e.target.value)}
+            className="rounded-2xl border border-emerald-100 bg-white px-4 py-3 outline-none disabled:cursor-not-allowed disabled:opacity-60 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-950 dark:focus:ring-emerald-950"
+          >
+            {isOther ? (
+              <option value="">{t("regionUseSaved")}</option>
+            ) : (
+              selectedCountry?.regions.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.label}
+                </option>
+              ))
+            )}
+          </select>
+        </label>
+      </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">{t("latitude")}</span>
           <div
-            className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm tabular-nums text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 font-mono text-sm tabular-nums text-sky-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lat)}
@@ -195,7 +188,7 @@ export function DashboardSubscriptionForm({
         <div className="flex flex-col gap-1">
           <span className="text-sm font-medium">{t("longitude")}</span>
           <div
-            className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-sm tabular-nums text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 font-mono text-sm tabular-nums text-sky-950 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             aria-live="polite"
           >
             {formatCoord(lon)}
@@ -218,8 +211,8 @@ export function DashboardSubscriptionForm({
           }}
           className={
             isOther
-              ? "rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
-              : "cursor-default rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              ? "rounded-2xl border border-zinc-200 bg-emerald-50 px-4 py-3 outline-none focus:border-emerald-400 focus:bg-white focus:ring-4 focus:ring-emerald-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-emerald-950"
+              : "cursor-default rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
           }
         />
         <span className="text-xs font-normal text-zinc-500">
@@ -235,7 +228,7 @@ export function DashboardSubscriptionForm({
             type="number"
             step="0.1"
             defaultValue={subscription?.min_temp_alert_celsius ?? 2}
-            className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
+            className="rounded-2xl border border-zinc-200 bg-amber-50 px-4 py-3 outline-none focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-amber-950"
           />
           <span className="text-xs font-normal text-zinc-500">
             {t("minAlertHint")}
@@ -248,7 +241,7 @@ export function DashboardSubscriptionForm({
             type="number"
             step="0.1"
             defaultValue={subscription?.max_temp_alert_celsius ?? 32}
-            className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
+            className="rounded-2xl border border-zinc-200 bg-rose-50 px-4 py-3 outline-none focus:border-rose-400 focus:bg-white focus:ring-4 focus:ring-rose-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-rose-950"
           />
           <span className="text-xs font-normal text-zinc-500">
             {t("maxAlertHint")}
@@ -263,16 +256,16 @@ export function DashboardSubscriptionForm({
           min={0}
           max={23}
           defaultValue={subscription?.daily_digest_hour ?? 8}
-          className="rounded-md border border-zinc-300 bg-white px-3 py-2 dark:border-zinc-700 dark:bg-zinc-950"
+          className="rounded-2xl border border-zinc-200 bg-sky-50 px-4 py-3 outline-none focus:border-sky-400 focus:bg-white focus:ring-4 focus:ring-sky-100 dark:border-zinc-700 dark:bg-zinc-900 dark:focus:ring-sky-950"
         />
       </label>
-      <label className="flex items-center gap-2 text-sm font-medium">
+      <label className="flex items-center gap-3 rounded-2xl bg-sky-50 p-4 text-sm font-bold dark:bg-sky-950/30">
         <input
           type="checkbox"
           name="is_active"
           value="on"
           defaultChecked={subscription?.is_active ?? true}
-          className="h-4 w-4 rounded border-zinc-300"
+          className="h-5 w-5 rounded border-zinc-300"
         />
         {t("active")}
       </label>
@@ -280,8 +273,8 @@ export function DashboardSubscriptionForm({
         <p
           className={
             feedback.type === "ok"
-              ? "text-sm text-emerald-700 dark:text-emerald-300"
-              : "text-sm text-red-600 dark:text-red-400"
+              ? "rounded-2xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+              : "rounded-2xl bg-red-50 p-3 text-sm font-medium text-red-700 dark:bg-red-950/40 dark:text-red-300"
           }
         >
           {feedback.text}
@@ -290,7 +283,7 @@ export function DashboardSubscriptionForm({
       <button
         type="submit"
         disabled={pending}
-        className="w-fit rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900"
+        className="w-fit rounded-full bg-emerald-700 px-5 py-3 text-sm font-bold text-white shadow-md hover:-translate-y-0.5 hover:bg-emerald-800 disabled:translate-y-0 disabled:opacity-60"
       >
         {pending ? t("submitting") : t("submit")}
       </button>

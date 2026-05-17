@@ -27,10 +27,15 @@
     "step4": "Un cron seguro envía resúmenes por correo vía Resend (configura tus claves).",
     "noteBox": "No se necesitan claves meteorológicas de terceros para el pronóstico. Las alertas requieren credenciales de Resend y Supabase para el envío seguro por lotes.",
     "honestTitle": "Nota de pronóstico transparente",
-    "honestBody": "Esta demo no procesa datos satelitales en bruto. En su lugar combina la salida de modelos globales confiables (vía Open‑Meteo) con referencias científicas satelitales para que los equipos puedan escalar a sensores calibrados cuando importa: cámaras frigoríficas, andenes de carga y preparación comunitaria."
+    "honestBody": "Esta demo no procesa datos satelitales en bruto. En su lugar combina la salida de modelos globales confiables (vía Open‑Meteo) con referencias científicas satelitales para que los equipos puedan escalar a sensores calibrados cuando importa: cámaras frigoríficas, andenes de carga y preparación comunitaria.",
+    "flowLabel": "Flujo en vivo",
+    "forecastWindow": "Ventana de pronóstico",
+    "coldLabel": "Frío",
+    "heatLabel": "Calor"
   },
   "auth": {
     "login": {
+      "eyebrow": "Bienvenido",
       "title": "Iniciar sesión",
       "subtitleBefore": "Accede a tu panel del asesor de temperatura. ¿Eres nuevo?",
       "subtitleLink": "Crea una cuenta",
@@ -40,6 +45,7 @@
       "submitting": "Iniciando sesión…"
     },
     "signUp": {
+      "eyebrow": "Comienza",
       "title": "Crea tu cuenta",
       "subtitleBefore": "Hogares y equipos de tiendas reciben verificación por correo a través de Supabase Auth. ¿Ya estás registrado?",
       "subtitleLink": "Inicia sesión",

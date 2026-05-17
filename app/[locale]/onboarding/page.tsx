@@ -23,15 +23,19 @@ export default async function OnboardingPage({ params }: Props) {
   const typedProfile = profile as Profile | null;
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-16">
-      <p className="text-sm font-semibold uppercase tracking-wide text-sky-800 dark:text-sky-200">
-        {t("eyebrow")}
-      </p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-        {t("title")}
-      </h1>
-      <p className="mt-3 text-zinc-600 dark:text-zinc-400">{t("subtitle")}</p>
-      <OnboardingForm profile={typedProfile} />
+    <div className="mx-auto max-w-2xl px-4 py-14">
+      <div className="rounded-3xl border border-sky-100 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+        <p className="w-fit rounded-full bg-sky-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-800 dark:bg-sky-950 dark:text-sky-200">
+          {t("eyebrow")}
+        </p>
+        <h1 className="mt-4 text-3xl font-black tracking-tight text-sky-950 dark:text-sky-50">
+          {t("title")}
+        </h1>
+        <p className="mt-3 leading-7 text-zinc-600 dark:text-zinc-300">
+          {t("subtitle")}
+        </p>
+        <OnboardingForm profile={typedProfile} />
+      </div>
     </div>
   );
 }

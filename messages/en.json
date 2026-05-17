@@ -27,10 +27,15 @@
     "step4": "Secured cron job emails digests via Resend (configure your keys).",
     "noteBox": "No third-party meteorological API keys needed for forecasting. Alerts require Resend and Supabase service credentials for secure batching.",
     "honestTitle": "Honest forecasting note",
-    "honestBody": "This demo does not run raw satellite ingestion. Instead it pairs trusted global model output (via Open‑Meteo) with satellite science references so teams can escalate to calibrated sensors when it matters—for walk-in coolers, loading docks, and community preparedness."
+    "honestBody": "This demo does not run raw satellite ingestion. Instead it pairs trusted global model output (via Open‑Meteo) with satellite science references so teams can escalate to calibrated sensors when it matters—for walk-in coolers, loading docks, and community preparedness.",
+    "flowLabel": "Live flow",
+    "forecastWindow": "Forecast window",
+    "coldLabel": "Cold",
+    "heatLabel": "Heat"
   },
   "auth": {
     "login": {
+      "eyebrow": "Welcome",
       "title": "Sign in",
       "subtitleBefore": "Access your temperature advisor dashboard. New here?",
       "subtitleLink": "Create an account",
@@ -40,6 +45,7 @@
       "submitting": "Signing in…"
     },
     "signUp": {
+      "eyebrow": "Get started",
       "title": "Create your account",
       "subtitleBefore": "Households and grocery teams each get email verification through Supabase Auth. Already registered?",
       "subtitleLink": "Sign in",

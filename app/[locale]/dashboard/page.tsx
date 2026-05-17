@@ -31,27 +31,31 @@ async function AdvisoryPreview({
   const t = await getTranslations({ locale, namespace: "dashboard" });
   return (
     <div className="space-y-4">
-      <div className="rounded-lg border border-sky-200 bg-sky-50 p-4 dark:border-sky-900/60 dark:bg-sky-950/40">
-        <p className="text-xs font-semibold uppercase tracking-wide text-sky-900 dark:text-sky-100">
+      <div className="rounded-3xl border border-sky-100 bg-sky-50 p-5 shadow-sm dark:border-sky-900/60 dark:bg-sky-950/40">
+        <p className="w-fit rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-wide text-sky-900 dark:bg-zinc-950 dark:text-sky-100">
           {t("advisoryEyebrow")}
         </p>
-        <h2 className="mt-2 text-xl font-semibold">{advisory.title}</h2>
-        <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
+        <h2 className="mt-3 text-2xl font-black text-sky-950 dark:text-sky-50">
+          {advisory.title}
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
           {advisory.summary}
         </p>
-        <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-zinc-700 dark:text-zinc-300">
+        <ul className="mt-4 space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
           {advisory.bullets.map((b) => (
-            <li key={b}>{b}</li>
+            <li key={b} className="rounded-2xl bg-white p-3 dark:bg-zinc-950">
+              {b}
+            </li>
           ))}
         </ul>
         {advisory.breachDetail ? (
-          <p className="mt-4 rounded-md bg-amber-100 p-3 text-sm text-amber-950 dark:bg-amber-400/15 dark:text-amber-50">
+          <p className="mt-4 rounded-2xl bg-amber-100 p-3 text-sm font-medium text-amber-950 dark:bg-amber-400/15 dark:text-amber-50">
             {advisory.thresholdBreached ? `${t("advisoryThresholdNote")} ` : ""}
             {advisory.breachDetail}
           </p>
         ) : null}
         {advisory.todayDaily ? (
-          <div className="mt-4 text-xs text-zinc-600 dark:text-zinc-400">
+          <div className="mt-4 rounded-2xl bg-white p-3 text-xs text-zinc-600 dark:bg-zinc-950 dark:text-zinc-400">
             {t("advisoryDailyAirRange", {
               date: advisory.todayDaily.date,
               min: advisory.todayDaily.temperature_2m_min ?? "–",
@@ -120,17 +124,17 @@ export default async function DashboardPage({ params }: Props) {
     );
 
   return (
-    <div className="mx-auto max-w-5xl space-y-10 px-4 py-12">
-      <div>
-        <p className="text-sm uppercase tracking-[0.2em] text-sky-800 dark:text-sky-300">
+    <div className="mx-auto max-w-6xl space-y-8 px-4 py-10">
+      <div className="rounded-3xl border border-sky-100 bg-white p-8 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+        <p className="w-fit rounded-full bg-sky-100 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-sky-800 dark:bg-sky-950 dark:text-sky-200">
           {t("eyebrow")}
         </p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">
+        <h1 className="mt-4 text-3xl font-black tracking-tight text-sky-950 dark:text-sky-50">
           {t("welcome", { name: typedProfile.full_name })}
         </h1>
-        <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+        <p className="mt-3 text-zinc-600 dark:text-zinc-300">
           {t("accountTypeLabel")}{" "}
-          <span className="font-medium text-zinc-900 dark:text-zinc-100">
+          <span className="font-bold text-zinc-900 dark:text-zinc-100">
             {typedProfile.account_type === "grocery"
               ? t("accountGrocery")
               : t("accountIndividual")}
@@ -138,26 +142,34 @@ export default async function DashboardPage({ params }: Props) {
           {typedProfile.store_name ? (
             <>
               {" "}
-              · <span className="font-medium">{typedProfile.store_name}</span>
+              · <span className="font-bold">{typedProfile.store_name}</span>
             </>
           ) : null}
         </p>
       </div>
 
-      <section className="grid gap-8 lg:grid-cols-2">
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <h2 className="text-lg font-semibold">{t("advisoryTitle")}</h2>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+      <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="rounded-3xl border border-sky-100 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+          <h2 className="text-xl font-black text-sky-950 dark:text-sky-50">
+            {t("advisoryTitle")}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
             {t("advisorySubtitle")}
           </p>
           <div className="mt-4">{advisoryBlock}</div>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <h2 className="text-lg font-semibold">{t("alertTitle")}</h2>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        <div className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-lg dark:border-zinc-800 dark:bg-zinc-950">
+          <h2 className="text-xl font-black text-emerald-950 dark:text-emerald-100">
+            {t("alertTitle")}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
             {t.rich("alertSubtitle", {
               secret: "CRON_SECRET",
-              code: (chunks) => <code className="text-xs">{chunks}</code>,
+              code: (chunks) => (
+                <code className="rounded-md bg-amber-100 px-1.5 py-0.5 text-xs text-amber-950 dark:bg-amber-950 dark:text-amber-100">
+                  {chunks}
+                </code>
+              ),
             })}
           </p>
           <DashboardSubscriptionForm
